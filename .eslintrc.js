@@ -1,3 +1,7 @@
 module.exports = {
-  extends: ["blitz"],
+  extends: ["blitz", "prettier"],
+  plugins: ["prettier"],
+  rules: {
+    "prettier/prettier": "error",
+  },
 }
