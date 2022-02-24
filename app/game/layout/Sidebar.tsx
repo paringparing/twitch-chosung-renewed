@@ -1,7 +1,8 @@
 import React from "react"
-import { currentGameMode, GameMode } from "../utils/store"
+import { SCurrentGameMode, GameMode } from "../utils/store"
 import { useRecoilState } from "recoil"
 import clsx from "clsx"
+import ChatView from "./ChatView"
 
 const ModSelectButton: React.FC<{ active: boolean; onClick: () => void }> = ({
   children,
@@ -42,7 +43,7 @@ const ModSelectButton: React.FC<{ active: boolean; onClick: () => void }> = ({
 }
 
 const Sidebar: React.FC = () => {
-  const [gameMode, setGameMode] = useRecoilState(currentGameMode)
+  const [gameMode, setGameMode] = useRecoilState(SCurrentGameMode)
 
   return (
     <div className="container">
@@ -61,9 +62,7 @@ const Sidebar: React.FC = () => {
           커스텀
         </ModSelectButton>
       </div>
-      <div className="card" style={{ flexGrow: 1 }}>
-        chat
-      </div>
+      <ChatView />
       <div className="card streamerMenu">
         <div style={{ fontSize: 40, fontWeight: 800 }}>스트리머용 메뉴</div>
         <div style={{ fontSize: 24, fontWeight: 800 }}>

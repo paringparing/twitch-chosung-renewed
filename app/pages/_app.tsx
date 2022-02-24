@@ -16,6 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
       <Head>
+        <title>초성 퀴즈</title>
         <link
           rel="stylesheet"
           type="text/css"

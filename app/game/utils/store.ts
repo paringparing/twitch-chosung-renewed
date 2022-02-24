@@ -5,7 +5,17 @@ export enum GameMode {
   Custom,
 }
 
-export const currentGameMode = atom<GameMode>({
+export const SCurrentGameMode = atom<GameMode>({
   key: "game:gameMode",
   default: GameMode.Suggested,
+})
+
+export type ChatData = {
+  user: string
+  chat: string
+}
+
+export const SChatData = atom<ChatData[]>({
+  key: "game:chatData",
+  default: [],
 })

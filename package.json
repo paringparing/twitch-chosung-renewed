@@ -34,11 +34,13 @@
     "react-icons": "4.3.1",
     "react-loader-spinner": "5.1.4",
     "recoil": "0.6.1",
+    "tmi.js": "1.8.5",
     "zod": "3.12.0"
   },
   "devDependencies": {
     "@types/preview-email": "2.0.1",
     "@types/react": "17.0.39",
+    "@types/tmi.js": "1.8.1",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.4.0",
     "eslint-plugin-prettier": "4.0.0",

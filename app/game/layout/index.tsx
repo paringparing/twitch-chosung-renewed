@@ -4,7 +4,7 @@ import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 import { RevolvingDot } from "react-loader-spinner"
 import LoginButton from "../../core/components/LoginButton"
 
-const GameLayoutContainer: React.FC = () => {
+const GameLayoutContainer: React.FC = (props) => {
   return (
     <React.Suspense
       fallback={
@@ -22,7 +22,7 @@ const GameLayoutContainer: React.FC = () => {
         </div>
       }
     >
-      <GameLayout />
+      <GameLayout {...props} />
     </React.Suspense>
   )
 }
@@ -53,7 +53,7 @@ const GameLayout: React.FC = ({ children }) => {
           }}
         >
           <Sidebar />
-          {children}
+          <div className="card">{children}</div>
         </div>
       ) : (
         <div className="login">
@@ -67,6 +67,12 @@ const GameLayout: React.FC = ({ children }) => {
           height: 100vh;
           overflow: hidden;
           position: relative;
+        }
+        .card {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          padding: 30px;
+          flex-grow: 1;
         }
         .login {
           display: flex;

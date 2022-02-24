@@ -16,8 +16,8 @@ model User {
   id        String   @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String?
-  channel   String?
+  name      String
+  channel   String
   role      String   @default("USER")
 
   tokens   Token[]
