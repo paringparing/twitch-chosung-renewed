@@ -13,7 +13,7 @@ generator client {
 // --------------------------------------
 
 model User {
-  id        Int      @id
+  id        String   @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String?
@@ -35,8 +35,8 @@ model Session {
   publicData         String?
   privateData        String?
 
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
 
 model Token {
@@ -50,8 +50,8 @@ model Token {
   expiresAt   DateTime
   sentTo      String
 
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   @@unique([hashedToken, type])
 }

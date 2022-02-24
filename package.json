@@ -24,11 +24,16 @@
   },
   "dependencies": {
     "@prisma/client": "3.10.0",
+    "axios": "0.26.0",
     "blitz": "0.45.3",
+    "clsx": "1.1.1",
     "final-form": "4.20.6",
     "react": "18.0.0-beta-149b420f6-20211119",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
     "react-final-form": "6.5.8",
+    "react-icons": "4.3.1",
+    "react-loader-spinner": "5.1.4",
+    "recoil": "0.6.1",
     "zod": "3.12.0"
   },
   "devDependencies": {

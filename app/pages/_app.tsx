@@ -7,12 +7,21 @@ import {
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
 } from "blitz"
+import { RecoilRoot } from "recoil"
+import { Head } from "next/head"
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
-    <>
+    <RecoilRoot>
+      <Head>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css"
+        />
+      </Head>
       <ErrorBoundary
         FallbackComponent={RootErrorFallback}
         onReset={useQueryErrorResetBoundary().reset}
@@ -23,10 +32,15 @@ export default function App({ Component, pageProps }: AppProps) {
         {`
           body {
             margin: 0;
+            user-select: none;
+          }
+          * {
+            box-sizing: border-box;
+            font-family: NanumSquareRound, sans-serif;
           }
         `}
       </style>
-    </>
+    </RecoilRoot>
   )
 }
 
