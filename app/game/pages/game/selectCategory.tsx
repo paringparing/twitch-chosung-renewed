@@ -1,7 +1,7 @@
 import React from "react"
 import { BlitzPage, useQuery } from "blitz"
 import GameLayout from "../../layout"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import { FaArrowLeft } from "react-icons/fa"
 import Link from "next/link"
 import {
@@ -16,10 +16,14 @@ import { Colors } from "../../constants"
 import { RevolvingDot } from "react-loader-spinner"
 import getOfficialCategories from "../../queries/officialCategories/getOfficialCategories"
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion"
-import { SSelectedOfficialWords } from "../../utils/store"
+import { SOverlayContent, SSelectedOfficialWords } from "../../utils/store"
 import getMyCategories from "../../queries/customCategories/getMyCategories"
 import getPublicCategories from "../../queries/customCategories/getPublicCategories"
 import getSharedCategories from "../../queries/customCategories/getSharedCategories"
+import Form from "../../../core/components/Form"
+import LabeledTextField from "../../../core/components/LabeledTextField"
+import { Button } from "../../components/Button"
+import DifficultySelector from "../../../core/components/DifficultySelector"
 
 const SearchInput: React.FC<{ value: string; onChange: (value: string) => void }> = ({
   onChange,
@@ -246,6 +250,7 @@ const TabItem: React.FC<{ active: boolean; onClick: () => void }> = ({
 const SelectCategory: BlitzPage = () => {
   const [query, setQuery] = React.useState("")
   const [selectedTab, setSelectedTab] = React.useState<TabType>(TabType.OFFICIAL)
+  const setOverlay = useSetRecoilState(SOverlayContent)
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -324,6 +329,21 @@ const SelectCategory: BlitzPage = () => {
                 alignItems: "center",
                 cursor: "pointer",
               }}
+              onClick={() => {
+                setOverlay(
+                  <Form onSubmit={console.log} style={{ width: 400 }}>
+                    <div
+                      style={{ fontSize: 32, textAlign: "center", width: "100%", fontWeight: 800 }}
+                    >
+                      주제 만들기
+                    </div>
+                    <LabeledTextField name="name" label="이름" />
+                    <LabeledTextField name="description" label="설명" />
+                    <DifficultySelector />
+                    <Button fullWidth>만들기</Button>
+                  </Form>
+                )
+              }}
             >
               <MdAdd size={48} />
             </div>
@@ -347,18 +367,20 @@ const SelectCategory: BlitzPage = () => {
             <CategoryList tab={selectedTab} query={query} />
           </React.Suspense>
         </div>
-        <div style={{ fontSize: 24, fontWeight: 800 }}>
-          원하는 주제가 없나요?{" "}
-          <a
-            style={{ color: Colors.blue }}
-            href="https://forms.gle/KcNTRyAhbYWZf69P9"
-            target="_blank"
-            rel="noreferrer"
-          >
-            여기
-          </a>
-          에서 주제 추가를 요청해 보세요.
-        </div>
+        {selectedTab === TabType.OFFICIAL && (
+          <div style={{ fontSize: 24, fontWeight: 800 }}>
+            원하는 주제가 없나요?{" "}
+            <a
+              style={{ color: Colors.blue }}
+              href="https://forms.gle/KcNTRyAhbYWZf69P9"
+              target="_blank"
+              rel="noreferrer"
+            >
+              여기
+            </a>
+            에서 주제 추가를 요청해 보세요.
+          </div>
+        )}
       </div>
     </div>
   )

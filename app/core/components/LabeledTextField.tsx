@@ -30,9 +30,9 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
 
     return (
-      <div {...outerProps}>
+      <div {...outerProps} style={{ width: "100%", ...outerProps?.style }}>
         <label {...labelProps}>
-          {label}
+          <div style={{ paddingLeft: 24 }}>{label}</div>
           <input {...input} disabled={submitting} {...props} ref={ref} />
         </label>
 
@@ -47,15 +47,24 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             display: flex;
             flex-direction: column;
             align-items: start;
-            font-size: 1rem;
+            font-size: 24px;
+            font-weight: 800;
           }
           input {
-            font-size: 1rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 3px;
-            border: 1px solid purple;
+            font-size: 24px;
+            font-weight: 800;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            height: 60px;
+            padding-left: 24px;
+            padding-right: 24px;
+            border-radius: 20px;
+            border: none;
             appearance: none;
             margin-top: 0.5rem;
+          }
+          input:focus {
+            outline: none;
           }
         `}</style>
       </div>
