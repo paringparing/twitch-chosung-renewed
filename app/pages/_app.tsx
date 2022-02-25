@@ -9,6 +9,7 @@ import {
 } from "blitz"
 import { RecoilRoot } from "recoil"
 import { Head } from "next/head"
+import "antd/dist/antd.css"
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)

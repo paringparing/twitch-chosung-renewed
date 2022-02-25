@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@prisma/client": "3.10.0",
+    "antd": "4.18.8",
     "axios": "0.26.0",
     "blitz": "0.45.3",
     "clsx": "1.1.1",

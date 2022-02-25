@@ -2,6 +2,7 @@ import { BlitzApiHandler } from "next"
 import axios from "axios"
 import db from "../../../db"
 import { getSession } from "blitz"
+import { Role } from "../../../types"
 
 type TwitchUser = {
   id: string
@@ -59,11 +60,15 @@ export default (async (req, res) => {
         name: userData.display_name,
         channel: userData.login,
       },
+      select: {
+        id: true,
+        role: true,
+      },
     })
     const session = await getSession(req, res)
     await session.$create({
       userId: user.id,
-      role: "USER",
+      role: user.role as Role,
     })
     res.redirect("/")
   }

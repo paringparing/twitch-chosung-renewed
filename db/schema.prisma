@@ -56,6 +56,21 @@ model Token {
   @@unique([hashedToken, type])
 }
 
+model OfficialCategory {
+  id          Int            @id @default(autoincrement())
+  words       OfficialWord[]
+  name        String
+  description String
+}
+
+model OfficialWord {
+  id         Int              @id @default(autoincrement())
+  categoryId Int
+  category   OfficialCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  word       String
+  hint       String
+}
+
 // NOTE: It's highly recommended to use an enum for the token type
 //       but enums only work in Postgres.
 //       See: https://blitzjs.com/docs/database-overview#switch-to-postgre-sql
