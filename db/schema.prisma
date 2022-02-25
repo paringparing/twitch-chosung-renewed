@@ -61,6 +61,7 @@ model OfficialCategory {
   words       OfficialWord[]
   name        String
   description String
+  available   Boolean        @default(false)
 }
 
 model OfficialWord {
@@ -69,6 +70,8 @@ model OfficialWord {
   category   OfficialCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   word       String
   hint       String
+
+  @@unique([categoryId, word])
 }
 
 // NOTE: It's highly recommended to use an enum for the token type
