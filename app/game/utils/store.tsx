@@ -1,4 +1,5 @@
 import { atom } from "recoil"
+import React from "react"
 
 export type ChatData = {
   user: string
@@ -18,4 +19,9 @@ export const STimeLimit = atom<number>({
 export const SSelectedOfficialWords = atom<number[]>({
   key: "game:selectedOfficialWords",
   default: [],
+})
+
+export const SOverlayContent = atom<React.ReactNode | null>({
+  key: "game:overlayContent",
+  default: null,
 })
