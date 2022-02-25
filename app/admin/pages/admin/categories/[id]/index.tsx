@@ -2,7 +2,7 @@ import React from "react"
 import { BlitzPage, GetServerSideProps, Router, useMutation } from "blitz"
 import AdminLayout from "../../../../layout"
 import db, { OfficialCategory } from "db"
-import { Button, Checkbox, Form, Input, notification, Popconfirm, Popover, Space } from "antd"
+import { Button, Checkbox, Form, Input, message } from "antd"
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons"
 import updateCategory from "../../../../mutations/categories/updateCategory"
 import deleteCategory from "../../../../mutations/categories/deleteCategory"
@@ -23,10 +23,7 @@ const CategoryEdit: BlitzPage<Props> = ({ category }) => {
         initialValues={category}
         onFinish={async (data) => {
           await updateMutation(data)
-          notification.open({
-            type: "success",
-            message: "저장 성공",
-          })
+          message.success("저장 성공")
         }}
       >
         <Form.Item hidden name="id" rules={[{ type: "number" }]}>
@@ -88,9 +85,7 @@ const CategoryEdit: BlitzPage<Props> = ({ category }) => {
                 if (confirm("이 주제를 삭제할까요? 삭제한 주제는 복구 불가능합니다.")) {
                   await deleteMutation(category.id)
                   await Router.push("/admin/categories")
-                  notification.success({
-                    message: "주제가 삭제되었습니다.",
-                  })
+                  message.success("주제가 삭제되었습니다.")
                 }
               }}
             >

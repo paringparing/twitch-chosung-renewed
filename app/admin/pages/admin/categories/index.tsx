@@ -2,9 +2,8 @@ import React from "react"
 import { BlitzPage, Router, useMutation, useQuery } from "blitz"
 import AdminLayout from "../../../layout"
 import getCategoryList from "../../../queries/categories/getCategoryList"
-import { Button, Card, Col, Form, Input, List, Modal, Row } from "antd"
+import { Button, Card, Form, Input, List, Modal } from "antd"
 import createCategory from "../../../mutations/categories/createCategory"
-import Link from "next/link"
 
 const CategoryList: BlitzPage = () => {
   const [search, setSearch] = React.useState("")
@@ -57,22 +56,27 @@ const CategoryList: BlitzPage = () => {
 }
 
 const Content: React.FC<{ query: string }> = ({ query }) => {
-  const [categories] = useQuery(getCategoryList, query)
+  const [categories, { refetch }] = useQuery(getCategoryList, query)
+
+  React.useEffect(() => {
+    refetch().then(() => console.log("refetch"))
+  }, [refetch])
 
   return (
     <div style={{ marginTop: 12 }}>
-      <Row gutter={16}>
-        {categories.map((x, i) => (
-          <Col span={8} key={i}>
-            <Link href={"/admin/categories/[id]"} as={`/admin/categories/${x.id}`} passHref>
-              <Card hoverable>
-                <div style={{ fontSize: 24 }}>{x.name}</div>
-                {x.description}
-              </Card>
-            </Link>
-          </Col>
-        ))}
-      </Row>
+      <List
+        grid={{ gutter: 16, column: 3 }}
+        dataSource={categories}
+        renderItem={(x) => (
+          <List.Item onClick={() => Router.push(`/admin/categories/${x.id}`)}>
+            <Card hoverable>
+              <div style={{ fontSize: 24 }}>{x.name}</div>
+              {x.description}
+            </Card>
+            {/*</Link>*/}
+          </List.Item>
+        )}
+      />
     </div>
   )
 }

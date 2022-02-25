@@ -3,13 +3,7 @@ import { AuthorizationError, BlitzLayout, Router } from "blitz"
 import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 import { RevolvingDot } from "react-loader-spinner"
 import { Layout, Menu } from "antd"
-import {
-  DashboardOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  OrderedListOutlined,
-} from "@ant-design/icons"
-import Link from "next/link"
+import { AlertOutlined, DashboardOutlined, OrderedListOutlined } from "@ant-design/icons"
 
 const AdminLayout: BlitzLayout = (props) => {
   return (
@@ -35,9 +29,9 @@ const AdminLayout: BlitzLayout = (props) => {
 }
 
 const AdminLayoutContent: React.FC = ({ children }) => {
-  const user = useCurrentUser()!
+  const user = useCurrentUser()
 
-  if (user.role !== "ADMIN") {
+  if (user?.role !== "ADMIN") {
     throw new AuthorizationError()
   }
 
@@ -72,6 +66,15 @@ const AdminLayoutContent: React.FC = ({ children }) => {
             }}
           >
             공식 카테고리
+          </Menu.Item>
+          <Menu.Item
+            key={2}
+            icon={<AlertOutlined />}
+            onClick={() => {
+              Router.push("/admin/alerts").then(() => console.log("moved to /admin/alerts"))
+            }}
+          >
+            공지
           </Menu.Item>
         </Menu>
       </Layout.Sider>
