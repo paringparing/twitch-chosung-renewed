@@ -1,10 +1,11 @@
 import React from "react"
-import { BlitzPage, GetServerSideProps, useMutation } from "blitz"
+import { BlitzPage, GetServerSideProps, Router, useMutation } from "blitz"
 import AdminLayout from "../../../../layout"
 import db, { OfficialCategory } from "db"
-import { Button, Checkbox, Form, Input, notification, Space } from "antd"
+import { Button, Checkbox, Form, Input, notification, Popconfirm, Popover, Space } from "antd"
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons"
 import updateCategory from "../../../../mutations/categories/updateCategory"
+import deleteCategory from "../../../../mutations/categories/deleteCategory"
 
 type Props = {
   category: OfficialCategory
@@ -13,6 +14,7 @@ type Props = {
 const CategoryEdit: BlitzPage<Props> = ({ category }) => {
   const [form] = Form.useForm()
   const [updateMutation] = useMutation(updateCategory)
+  const [deleteMutation] = useMutation(deleteCategory)
 
   return (
     <div>
@@ -74,12 +76,29 @@ const CategoryEdit: BlitzPage<Props> = ({ category }) => {
           )}
         </Form.List>
         <Form.Item>
-          <Button style={{ width: "100%" }} type="primary" htmlType="submit">
-            저장
-          </Button>
+          <div style={{ display: "flex", gap: 12, width: "100%" }}>
+            <Button style={{ flexGrow: 1 }} type="primary" htmlType="submit">
+              저장
+            </Button>
+            <Button
+              style={{ flexGrow: 1 }}
+              type="primary"
+              danger
+              onClick={async () => {
+                if (confirm("이 주제를 삭제할까요? 삭제한 주제는 복구 불가능합니다.")) {
+                  await deleteMutation(category.id)
+                  await Router.push("/admin/categories")
+                  notification.success({
+                    message: "주제가 삭제되었습니다.",
+                  })
+                }
+              }}
+            >
+              삭제
+            </Button>
+          </div>
         </Form.Item>
       </Form>
-      {JSON.stringify(category)}
     </div>
   )
 }
