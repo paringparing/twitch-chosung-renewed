@@ -2,7 +2,7 @@ import React from "react"
 import { BlitzPage, GetServerSideProps, Router, useMutation } from "blitz"
 import AdminLayout from "../../../../layout"
 import db, { OfficialCategory } from "db"
-import { Button, Checkbox, Form, Input, message } from "antd"
+import { Button, Checkbox, Form, Input, InputNumber, message } from "antd"
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons"
 import updateCategory from "../../../../mutations/categories/updateCategory"
 import deleteCategory from "../../../../mutations/categories/deleteCategory"
@@ -34,6 +34,13 @@ const CategoryEdit: BlitzPage<Props> = ({ category }) => {
         </Form.Item>
         <Form.Item name="description" label="설명" rules={[{ required: true }]}>
           <Input />
+        </Form.Item>
+        <Form.Item
+          name="difficulty"
+          label="난이도"
+          rules={[{ required: true, type: "number", min: 1, max: 10 }]}
+        >
+          <InputNumber style={{ width: "100%" }} min={1} max={10} />
         </Form.Item>
         <Form.Item name="available" valuePropName="checked">
           <Checkbox>유저에게 표시</Checkbox>

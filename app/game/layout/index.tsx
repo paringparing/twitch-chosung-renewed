@@ -4,7 +4,7 @@ import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 import { RevolvingDot } from "react-loader-spinner"
 import LoginButton from "../../core/components/LoginButton"
 
-const GameLayoutContainer: React.FC = (props) => {
+const GameLayout: React.FC = (props) => {
   return (
     <React.Suspense
       fallback={
@@ -22,12 +22,12 @@ const GameLayoutContainer: React.FC = (props) => {
         </div>
       }
     >
-      <GameLayout {...props} />
+      <GameLayoutContent {...props} />
     </React.Suspense>
   )
 }
 
-const GameLayout: React.FC = ({ children }) => {
+const GameLayoutContent: React.FC = ({ children }) => {
   const user = useCurrentUser()
   const containerRef = React.useRef<HTMLElement | null>()
   const [scale, setScale] = React.useState(0)
@@ -97,4 +97,4 @@ const GameLayout: React.FC = ({ children }) => {
   )
 }
 
-export default GameLayoutContainer
+export default GameLayout

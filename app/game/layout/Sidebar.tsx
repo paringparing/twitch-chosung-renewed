@@ -1,66 +1,18 @@
 import React from "react"
-import { SCurrentGameMode, GameMode } from "../utils/store"
-import { useRecoilState } from "recoil"
-import clsx from "clsx"
 import ChatView from "./ChatView"
-
-const ModSelectButton: React.FC<{ active: boolean; onClick: () => void }> = ({
-  children,
-  onClick,
-  active,
-}) => {
-  return (
-    <div className={clsx("button", { active })} onClick={onClick}>
-      {children}
-      <style jsx>
-        {`
-          .button {
-            height: 60px;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 20px;
-            font-size: 24px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all ease 0.2s;
-          }
-          .button:hover {
-            filter: brightness(0.9);
-          }
-          .button:active {
-            filter: brightness(0.8);
-          }
-          .button.active {
-            background: #6993ff;
-            color: #fff;
-          }
-        `}
-      </style>
-    </div>
-  )
-}
+import { useCurrentUser } from "../../core/hooks/useCurrentUser"
+import { Button } from "../components/Button"
 
 const Sidebar: React.FC = () => {
-  const [gameMode, setGameMode] = useRecoilState(SCurrentGameMode)
+  const user = useCurrentUser()!
 
   return (
     <div className="container">
-      <div className="modSelect card">
-        <div style={{ fontSize: 40, fontWeight: 800 }}>모드 선택</div>
-        <ModSelectButton
-          onClick={() => setGameMode(GameMode.Suggested)}
-          active={gameMode === GameMode.Suggested}
-        >
-          추천
-        </ModSelectButton>
-        <ModSelectButton
-          onClick={() => setGameMode(GameMode.Custom)}
-          active={gameMode === GameMode.Custom}
-        >
-          커스텀
-        </ModSelectButton>
+      <div className="card">
+        <div style={{ fontSize: 32, fontWeight: 600 }}>{user.name}</div>
+        <Button as="a" href={"/api/auth/logout"} style={{ width: "100%", marginTop: 12 }}>
+          로그아웃
+        </Button>
       </div>
       <ChatView />
       <div className="card streamerMenu">
