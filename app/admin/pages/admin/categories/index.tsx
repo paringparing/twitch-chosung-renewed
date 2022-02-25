@@ -2,8 +2,9 @@ import React from "react"
 import { BlitzPage, Router, useMutation, useQuery } from "blitz"
 import AdminLayout from "../../../layout"
 import getCategoryList from "../../../queries/categories/getCategoryList"
-import { Button, Form, Input, Modal } from "antd"
+import { Button, Card, Col, Form, Input, List, Modal, Row } from "antd"
 import createCategory from "../../../mutations/categories/createCategory"
+import Link from "next/link"
 
 const CategoryList: BlitzPage = () => {
   const [search, setSearch] = React.useState("")
@@ -58,7 +59,22 @@ const CategoryList: BlitzPage = () => {
 const Content: React.FC<{ query: string }> = ({ query }) => {
   const [categories] = useQuery(getCategoryList, query)
 
-  return <div style={{ marginTop: 12 }}>Test</div>
+  return (
+    <div style={{ marginTop: 12 }}>
+      <Row gutter={16}>
+        {categories.map((x, i) => (
+          <Col span={8} key={i}>
+            <Link href={"/admin/categories/[id]"} as={`/admin/categories/${x.id}`} passHref>
+              <Card hoverable>
+                <div style={{ fontSize: 24 }}>{x.name}</div>
+                {x.description}
+              </Card>
+            </Link>
+          </Col>
+        ))}
+      </Row>
+    </div>
+  )
 }
 
 CategoryList.getLayout = (component) => <AdminLayout>{component}</AdminLayout>
