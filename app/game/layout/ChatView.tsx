@@ -52,6 +52,7 @@ const ChatView: React.FC = () => {
       <style jsx>{`
         .container {
           background: rgba(255, 255, 255, 0.2);
+          word-break: break-all;
           border-radius: 20px;
           padding: 30px;
           flex-grow: 1;

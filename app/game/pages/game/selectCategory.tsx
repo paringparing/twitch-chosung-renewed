@@ -1,5 +1,5 @@
 import React from "react"
-import { BlitzPage, useQuery } from "blitz"
+import { BlitzPage, Router, useMutation, useQuery } from "blitz"
 import GameLayout from "../../layout"
 import { useRecoilState, useSetRecoilState } from "recoil"
 import { FaArrowLeft } from "react-icons/fa"
@@ -8,6 +8,7 @@ import {
   MdAdd,
   MdChevronLeft,
   MdChevronRight,
+  MdEdit,
   MdSearch,
   MdStar,
   MdStarBorder,
@@ -16,7 +17,7 @@ import { Colors } from "../../constants"
 import { RevolvingDot } from "react-loader-spinner"
 import getOfficialCategories from "../../queries/officialCategories/getOfficialCategories"
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion"
-import { SOverlayContent, SSelectedOfficialWords } from "../../utils/store"
+import { SOverlayContent, SSelectedCustomWords, SSelectedOfficialWords } from "../../utils/store"
 import getMyCategories from "../../queries/customCategories/getMyCategories"
 import getPublicCategories from "../../queries/customCategories/getPublicCategories"
 import getSharedCategories from "../../queries/customCategories/getSharedCategories"
@@ -24,6 +25,9 @@ import Form from "../../../core/components/Form"
 import LabeledTextField from "../../../core/components/LabeledTextField"
 import { Button } from "../../components/Button"
 import DifficultySelector from "../../../core/components/DifficultySelector"
+import createCustomCategory from "../../validation/createCustomCategory"
+import createCustomCategoryMutation from "../../mutations/categories/createCustomCategory"
+import Overlay from "../../components/Overlay"
 
 const SearchInput: React.FC<{ value: string; onChange: (value: string) => void }> = ({
   onChange,
@@ -67,17 +71,18 @@ const SearchInput: React.FC<{ value: string; onChange: (value: string) => void }
 }
 
 const ItemCard: React.FC<{
-  item: { name: string; id: number; description: string; difficulty: number }
+  item: { name: string; id: number; description: string; difficulty: number; owner?: string }
   tab: TabType
 }> = ({ item, tab }) => {
   const [official, setOfficial] = useRecoilState(SSelectedOfficialWords)
+  const [custom, setCustom] = useRecoilState(SSelectedCustomWords)
 
   const selected = React.useMemo(() => {
     if (tab === TabType.OFFICIAL) {
       return official.includes(item.id)
     }
-    return false
-  }, [tab, official, item.id])
+    return custom.includes(item.id)
+  }, [tab, official, item.id, custom])
 
   return (
     <div
@@ -95,11 +100,23 @@ const ItemCard: React.FC<{
           } else {
             setOfficial([...official, item.id])
           }
+        } else {
+          if (selected) {
+            setCustom(custom.filter((x) => x !== item.id))
+          } else {
+            setCustom([...custom, item.id])
+          }
         }
       }}
     >
       <div style={{ background: "#7DDDC0", borderRadius: 10, padding: 20, height: "100%" }}>
-        <div style={{ fontSize: 32, fontWeight: 800 }}>{item.name}</div>
+        <div style={{ display: "flex" }}>
+          <div style={{ fontSize: 32, flexGrow: 1, fontWeight: 800 }}>{item.name}</div>
+          {tab === TabType.ME && (
+            <MdEdit onClick={() => Router.push(`/game/categories/${item.id}`)} size={24} />
+          )}
+        </div>
+        {item.owner && <div style={{ fontSize: 24 }}>제작자: {item.owner}</div>}
         <div style={{ display: "flex" }}>
           {new Array(item.difficulty).fill(0).map((x, i) => (
             <MdStar size={28} key={i} />
@@ -135,7 +152,7 @@ const CategoryList: React.FC<{ query: string; tab: TabType }> = ({ query, tab })
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      {categories.length && (
+      {categories.length ? (
         <>
           <div
             style={{
@@ -201,6 +218,10 @@ const CategoryList: React.FC<{ query: string; tab: TabType }> = ({ query, tab })
             </div>
           </div>
         </>
+      ) : (
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 32 }}>결과 없음</div>
+        </div>
       )}
     </div>
   )
@@ -250,6 +271,7 @@ const TabItem: React.FC<{ active: boolean; onClick: () => void }> = ({
 const SelectCategory: BlitzPage = () => {
   const [query, setQuery] = React.useState("")
   const [selectedTab, setSelectedTab] = React.useState<TabType>(TabType.OFFICIAL)
+  const [createCategory] = useMutation(createCustomCategoryMutation)
   const setOverlay = useSetRecoilState(SOverlayContent)
 
   return (
@@ -318,35 +340,55 @@ const SelectCategory: BlitzPage = () => {
         <div style={{ display: "flex", width: "100%", gap: 12 }}>
           <SearchInput value={query} onChange={(value) => setQuery(value)} />
           {selectedTab === TabType.ME && (
-            <div
-              style={{
-                width: 60,
-                height: 60,
-                background: "rgba(255, 255, 255, 0.2)",
-                borderRadius: 20,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setOverlay(
-                  <Form onSubmit={console.log} style={{ width: 400 }}>
+            <Overlay
+              button={
+                <div
+                  style={{
+                    width: 60,
+                    height: 60,
+                    background: "rgba(255, 255, 255, 0.2)",
+                    borderRadius: 20,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  <MdAdd size={48} />
+                </div>
+              }
+            >
+              <Form
+                schema={createCustomCategory}
+                onSubmit={async (values) => {
+                  const id = await createCategory(values)
+                  setOverlay(null)
+                  await Router.push(`/game/categories/${id}`)
+                }}
+                style={{ width: 400, display: "flex", flexDirection: "column", gap: 20 }}
+              >
+                {() => (
+                  <>
                     <div
-                      style={{ fontSize: 32, textAlign: "center", width: "100%", fontWeight: 800 }}
+                      style={{
+                        fontSize: 32,
+                        textAlign: "center",
+                        width: "100%",
+                        fontWeight: 800,
+                      }}
                     >
                       주제 만들기
                     </div>
-                    <LabeledTextField name="name" label="이름" />
-                    <LabeledTextField name="description" label="설명" />
+                    <LabeledTextField autoComplete="off" name="name" label="이름" />
+                    <LabeledTextField autoComplete="off" name="description" label="설명" />
                     <DifficultySelector />
-                    <Button fullWidth>만들기</Button>
-                  </Form>
-                )
-              }}
-            >
-              <MdAdd size={48} />
-            </div>
+                    <Button fullWidth type="submit">
+                      만들기
+                    </Button>
+                  </>
+                )}
+              </Form>
+            </Overlay>
           )}
         </div>
         <div style={{ flexGrow: 1, width: "100%", marginTop: 10, height: 0 }}>

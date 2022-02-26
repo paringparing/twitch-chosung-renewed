@@ -10,6 +10,7 @@ import {
 import { RecoilRoot } from "recoil"
 import { Head } from "next/head"
 import "antd/dist/antd.css"
+import "../../stylesheets/main.css"
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
@@ -39,6 +40,18 @@ export default function App({ Component, pageProps }: AppProps) {
           * {
             box-sizing: border-box;
             font-family: NanumSquareRound, sans-serif;
+          }
+
+          .dropdownContainer li {
+            padding: 20px 24px;
+            font-size: 24px;
+            font-weight: 800;
+            transition: all ease 0.2s;
+            cursor: pointer;
+            list-style: none;
+          }
+          .dropdownContainer li:hover {
+            background: rgba(255, 255, 255, 0.4);
           }
         `}
       </style>

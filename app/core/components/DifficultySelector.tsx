@@ -5,8 +5,11 @@ import { MdStar, MdStarOutline } from "react-icons/md"
 const DifficultySelector: React.FC = () => {
   const {
     input: { value, onChange },
+    meta: { touched, error, submitError },
   } = useField<number>("difficulty")
   const [hovered, setHovered] = React.useState(0)
+
+  const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
 
   return (
     <div style={{ paddingLeft: 24 }}>
@@ -27,6 +30,11 @@ const DifficultySelector: React.FC = () => {
           </div>
         ))}
       </div>
+      {touched && normalizedError && (
+        <div role="alert" style={{ color: "red", fontSize: 24, paddingTop: 6 }}>
+          {normalizedError}
+        </div>
+      )}
     </div>
   )
 }

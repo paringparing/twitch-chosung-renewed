@@ -6,6 +6,6 @@ export default async function getCurrentUser(_ = null, { session }: Ctx) {
 
   return db.user.findFirst({
     where: { id: session.userId },
-    select: { id: true, name: true, channel: true, role: true },
+    select: { id: true, name: true, channel: true, role: true, avatar: true },
   })
 }

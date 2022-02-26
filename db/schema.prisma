@@ -19,6 +19,7 @@ model User {
   name      String
   channel   String
   role      String   @default("USER")
+  avatar    String?
 
   tokens   Token[]
   sessions Session[]

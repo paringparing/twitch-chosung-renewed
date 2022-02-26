@@ -21,6 +21,11 @@ export const SSelectedOfficialWords = atom<number[]>({
   default: [],
 })
 
+export const SSelectedCustomWords = atom<number[]>({
+  key: "game:selectedCustomWords",
+  default: [],
+})
+
 export const SOverlayContent = atom<React.ReactNode | null>({
   key: "game:overlayContent",
   default: null,

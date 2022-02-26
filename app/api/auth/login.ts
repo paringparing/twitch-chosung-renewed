@@ -8,6 +8,7 @@ type TwitchUser = {
   id: string
   login: string
   display_name: string
+  profile_image_url: string
 }
 
 export default (async (req, res) => {
@@ -55,10 +56,12 @@ export default (async (req, res) => {
         id: userData.id,
         name: userData.display_name,
         channel: userData.login,
+        avatar: userData.profile_image_url,
       },
       update: {
         name: userData.display_name,
         channel: userData.login,
+        avatar: userData.profile_image_url,
       },
       select: {
         id: true,

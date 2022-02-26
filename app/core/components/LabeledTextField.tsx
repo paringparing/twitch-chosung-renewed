@@ -1,5 +1,7 @@
 import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
+import { Oval } from "react-loader-spinner"
+import clsx from "clsx"
 
 export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */
@@ -11,10 +13,11 @@ export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElem
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
+  loading?: boolean
 }
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
-  ({ name, label, outerProps, fieldProps, labelProps, ...props }, ref) => {
+  ({ name, label, loading, outerProps, fieldProps, labelProps, ...props }, ref) => {
     const {
       input,
       meta: { touched, error, submitError, submitting },
@@ -33,11 +36,14 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
       <div {...outerProps} style={{ width: "100%", ...outerProps?.style }}>
         <label {...labelProps}>
           <div style={{ paddingLeft: 24 }}>{label}</div>
-          <input {...input} disabled={submitting} {...props} ref={ref} />
+          <div className={clsx("input", { pr: loading })}>
+            <input {...input} disabled={submitting} {...props} ref={ref} />
+            {loading && <Oval width={24} height={24} />}
+          </div>
         </label>
 
         {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
+          <div role="alert" style={{ color: "red", fontSize: 24, paddingLeft: 24, paddingTop: 6 }}>
             {normalizedError}
           </div>
         )}
@@ -51,17 +57,30 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             font-weight: 800;
           }
           input {
+            border: none;
+            height: 100%;
+            flex-grow: 1;
+            padding-left: 24px;
+            padding-right: 24px;
+            background: transparent;
+          }
+          .input {
+            overflow: hidden;
+            gap: 12px;
+            align-items: center;
+            display: flex;
             font-size: 24px;
             font-weight: 800;
             width: 100%;
             background: rgba(255, 255, 255, 0.2);
             height: 60px;
-            padding-left: 24px;
-            padding-right: 24px;
             border-radius: 20px;
             border: none;
             appearance: none;
             margin-top: 0.5rem;
+          }
+          .input.pr {
+            padding-right: 16px;
           }
           input:focus {
             outline: none;
