@@ -110,7 +110,13 @@ const Overlay: React.FC<
           )}
         </AnimatePresence>
       </Portal>
-      <div onClick={() => setOpen(true)}>{button}</div>
+      <div
+        onClick={() => {
+          if (!(button as any).props.disabled) setOpen(true)
+        }}
+      >
+        {button}
+      </div>
     </>
   )
 }

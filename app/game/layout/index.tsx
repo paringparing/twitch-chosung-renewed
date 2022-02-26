@@ -4,6 +4,8 @@ import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 import { RevolvingDot } from "react-loader-spinner"
 import LoginButton from "../../core/components/LoginButton"
 import { useScale } from "../utils/scale"
+import { useRecoilValue } from "recoil"
+import { SDisablePadding } from "../utils/store"
 
 const GameLayout: React.FC = (props) => {
   return (
@@ -31,6 +33,7 @@ const GameLayout: React.FC = (props) => {
 const GameLayoutContent: React.FC = ({ children }) => {
   const user = useCurrentUser()
   const scale = useScale()
+  const disablePadding = useRecoilValue(SDisablePadding)
 
   return (
     <>
@@ -43,7 +46,7 @@ const GameLayoutContent: React.FC = ({ children }) => {
             }}
           >
             <Sidebar />
-            <div className="card" style={{ padding: 60 }}>
+            <div className="card" style={{ padding: disablePadding ? 0 : 60 }}>
               {children}
             </div>
           </div>

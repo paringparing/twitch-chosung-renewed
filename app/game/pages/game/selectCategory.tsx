@@ -17,7 +17,7 @@ import { Colors } from "../../constants"
 import { RevolvingDot } from "react-loader-spinner"
 import getOfficialCategories from "../../queries/officialCategories/getOfficialCategories"
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion"
-import { SOverlayContent, SSelectedCustomWords, SSelectedOfficialWords } from "../../utils/store"
+import { SSelectedCustomWords, SSelectedOfficialWords } from "../../utils/store"
 import getMyCategories from "../../queries/customCategories/getMyCategories"
 import getPublicCategories from "../../queries/customCategories/getPublicCategories"
 import getSharedCategories from "../../queries/customCategories/getSharedCategories"
@@ -272,7 +272,6 @@ const SelectCategory: BlitzPage = () => {
   const [query, setQuery] = React.useState("")
   const [selectedTab, setSelectedTab] = React.useState<TabType>(TabType.OFFICIAL)
   const [createCategory] = useMutation(createCustomCategoryMutation)
-  const setOverlay = useSetRecoilState(SOverlayContent)
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -358,36 +357,38 @@ const SelectCategory: BlitzPage = () => {
                 </div>
               }
             >
-              <Form
-                schema={createCustomCategory}
-                onSubmit={async (values) => {
-                  const id = await createCategory(values)
-                  setOverlay(null)
-                  await Router.push(`/game/categories/${id}`)
-                }}
-                style={{ width: 400, display: "flex", flexDirection: "column", gap: 20 }}
-              >
-                {() => (
-                  <>
-                    <div
-                      style={{
-                        fontSize: 32,
-                        textAlign: "center",
-                        width: "100%",
-                        fontWeight: 800,
-                      }}
-                    >
-                      주제 만들기
-                    </div>
-                    <LabeledTextField autoComplete="off" name="name" label="이름" />
-                    <LabeledTextField autoComplete="off" name="description" label="설명" />
-                    <DifficultySelector />
-                    <Button fullWidth type="submit">
-                      만들기
-                    </Button>
-                  </>
-                )}
-              </Form>
+              {({ close }) => (
+                <Form
+                  schema={createCustomCategory}
+                  onSubmit={async (values) => {
+                    const id = await createCategory(values)
+                    close()
+                    await Router.push(`/game/categories/${id}`)
+                  }}
+                  style={{ width: 400, display: "flex", flexDirection: "column", gap: 20 }}
+                >
+                  {() => (
+                    <>
+                      <div
+                        style={{
+                          fontSize: 32,
+                          textAlign: "center",
+                          width: "100%",
+                          fontWeight: 800,
+                        }}
+                      >
+                        주제 만들기
+                      </div>
+                      <LabeledTextField autoComplete="off" name="name" label="이름" />
+                      <LabeledTextField autoComplete="off" name="description" label="설명" />
+                      <DifficultySelector />
+                      <Button fullWidth type="submit">
+                        만들기
+                      </Button>
+                    </>
+                  )}
+                </Form>
+              )}
             </Overlay>
           )}
         </div>

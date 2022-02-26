@@ -1,11 +1,18 @@
 import React from "react"
-import { BlitzPage, Router } from "blitz"
+import { BlitzPage, Router, useQuery } from "blitz"
 import GameLayout from "../../layout"
 import { MdAccessTime } from "react-icons/md"
-import { useRecoilState } from "recoil"
-import { STimeLimit } from "../../utils/store"
+import { useRecoilState, useRecoilValue } from "recoil"
+import {
+  SSelectedCustomWords,
+  SSelectedOfficialWords,
+  STimeLimit,
+  SWordCount,
+} from "../../utils/store"
 import { Button } from "../../components/Button"
 import { Colors } from "../../constants"
+import getWordCount from "../../queries/words/getWordCount"
+import Slider from "rc-slider"
 
 const TimeInput: React.FC = () => {
   const [timeLimit, setTimeLimit] = useRecoilState(STimeLimit)
@@ -60,7 +67,39 @@ const TimeInput: React.FC = () => {
   )
 }
 
+const WordCountSelector: React.FC = () => {
+  const official = useRecoilValue(SSelectedOfficialWords)
+  const custom = useRecoilValue(SSelectedCustomWords)
+
+  const [wordCount] = useQuery(getWordCount, { official, custom })
+
+  const [wCnt, setWCnt] = useRecoilState(SWordCount)
+
+  return (
+    <div style={{ width: 400, padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ fontSize: 24, display: "flex" }}>
+        <div style={{ flexGrow: 1 }}>단어 개수</div>
+        <div>
+          {wCnt} / {wordCount}
+        </div>
+      </div>
+      <Slider
+        max={wordCount}
+        min={1}
+        style={{ width: "100%" }}
+        value={wCnt}
+        onChange={(value) => setWCnt(value)}
+      />
+    </div>
+  )
+}
+
 const Game: BlitzPage = () => {
+  const official = useRecoilValue(SSelectedOfficialWords)
+  const custom = useRecoilValue(SSelectedCustomWords)
+
+  const available = React.useMemo(() => !!(official.length + custom.length), [official, custom])
+
   return (
     <div
       style={{
@@ -74,6 +113,11 @@ const Game: BlitzPage = () => {
     >
       <div style={{ fontSize: 64, fontWeight: 800 }}>게임 설정</div>
       <TimeInput />
+      {available && (
+        <React.Suspense fallback="Loading...">
+          <WordCountSelector />
+        </React.Suspense>
+      )}
       <Button
         onClick={() => Router.push("/game/selectCategory")}
         color={Colors.purple}
@@ -81,7 +125,11 @@ const Game: BlitzPage = () => {
       >
         주제 선택
       </Button>
-      <Button disabled style={{ width: 400 }}>
+      <Button
+        disabled={!available}
+        style={{ width: 400 }}
+        onClick={() => Router.push("/game/play")}
+      >
         게임 시작
       </Button>
     </div>

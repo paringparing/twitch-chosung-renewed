@@ -11,6 +11,7 @@ import { RecoilRoot } from "recoil"
 import { Head } from "next/head"
 import "antd/dist/antd.css"
 import "../../stylesheets/main.css"
+import "rc-slider/assets/index.css"
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)

@@ -13,9 +13,7 @@ import { Colors } from "../../../../constants"
 import { AnimatePresence, motion } from "framer-motion"
 import { MdAdd, MdError, MdExpandMore, MdRemove } from "react-icons/md"
 import { Listbox } from "@headlessui/react"
-import { FormRenderProps, useField, useForm } from "react-final-form"
-import { useSetRecoilState } from "recoil"
-import { SOverlayContent } from "../../../../utils/store"
+import { FormRenderProps, useField } from "react-final-form"
 import getUser from "../../../../mutations/users/getUser"
 import getUserQuery from "../../../../queries/users/getUserQuery"
 import addSharedUser from "../../../../mutations/categories/addSharedUser"
@@ -640,14 +638,6 @@ const CategoryEditorContent: BlitzPage = () => {
           <div style={{ fontSize: 32 }}>주제가 존재하지 않거나 권한이 없을 수 있습니다</div>
         </div>
       )}
-      {/*<Form*/}
-      {/*  onSubmit={(values) => {*/}
-      {/*    console.log(values)*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <div>{item.name}</div>*/}
-      {/*  <LabeledTextField name="name" label="이름" />*/}
-      {/*</Form>*/}
     </div>
   )
 }

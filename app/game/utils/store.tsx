@@ -1,4 +1,4 @@
-import { atom } from "recoil"
+import { atom, selector } from "recoil"
 import React from "react"
 
 export type ChatData = {
@@ -26,7 +26,39 @@ export const SSelectedCustomWords = atom<number[]>({
   default: [],
 })
 
-export const SOverlayContent = atom<React.ReactNode | null>({
-  key: "game:overlayContent",
+export const SWordCount = atom<number>({
+  key: "game:wordCount",
+  default: 1,
+})
+
+export const SWords = atom<null | { word: string; hint: string; category: string }[]>({
+  key: "game:words",
   default: null,
+})
+
+export const SDisablePadding = atom<boolean>({
+  key: "game:disablePadding",
+  default: false,
+})
+
+export const SCurrentWordIndex = atom<number>({
+  key: "game:currentWordIndex",
+  default: 0,
+})
+
+export const SCurrentWord = selector<{ word: string; hint: string; category: string }>({
+  key: "game:currentWord",
+  get: async ({ get }) => {
+    return get(SWords)![get(SCurrentWordIndex)]!
+  },
+})
+
+export const SShowHint = atom<boolean>({
+  key: "game:showHint",
+  default: false,
+})
+
+export const SShowCategory = atom<boolean>({
+  key: "game:showCategory",
+  default: false,
 })

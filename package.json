@@ -31,6 +31,9 @@
     "clsx": "1.1.1",
     "final-form": "4.20.6",
     "framer-motion": "6.2.8",
+    "hangul-js": "0.2.6",
+    "lodash": "4.17.21",
+    "rc-slider": "9.7.5",
     "react": "18.0.0-beta-149b420f6-20211119",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
     "react-final-form": "6.5.8",
@@ -42,6 +45,7 @@
     "zod": "3.12.0"
   },
   "devDependencies": {
+    "@types/lodash": "4.14.179",
     "@types/preview-email": "2.0.1",
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.11",
