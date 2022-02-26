@@ -7,6 +7,7 @@ const schema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
   available: z.boolean(),
+  difficulty: z.number().int().min(1).max(10),
   words: z.array(
     z.object({
       word: z.string().min(1),
@@ -25,6 +26,7 @@ export default resolver.pipe(resolver.authorize("ADMIN"), resolver.zod(schema), 
       name: i.name,
       description: i.description,
       available: i.available,
+      difficulty: i.difficulty,
       words: {
         upsert: i.words.map((x) => ({
           where: {
