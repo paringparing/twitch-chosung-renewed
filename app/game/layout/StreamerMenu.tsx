@@ -9,7 +9,7 @@ import {
   SWords,
 } from "../utils/store"
 import { Button } from "../components/Button"
-import { Router } from "blitz"
+import { Router, useRouter } from "blitz"
 
 const StreamerMenu: React.FC = () => {
   const currentWord = useRecoilValue(SCurrentWord)
@@ -18,10 +18,13 @@ const StreamerMenu: React.FC = () => {
   const [showCategory, setShowCategory] = useRecoilState(SShowCategory)
   const [showHint, setShowHint] = useRecoilState(SShowHint)
   const [noAnswer, setNoAnswer] = useRecoilState(SNoAnswer)
+  const router = useRouter()
+
+  const isResultPage = router.pathname !== "/game/play"
 
   return (
     <div className="card streamerMenu" style={{ textAlign: currentWord ? "left" : "center" }}>
-      {currentWord ? (
+      {currentWord && !isResultPage ? (
         <>
           <div style={{ width: "100%", display: "flex" }}>
             <div style={{ flexGrow: 1, fontSize: 40, fontWeight: 800 }}>{currentWord.word}</div>

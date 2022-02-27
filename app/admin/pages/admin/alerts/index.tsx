@@ -33,7 +33,10 @@ const ListContent: React.FC<{ query: string }> = ({ query }) => {
         bordered
         dataSource={alerts}
         renderItem={(x) => (
-          <List.Item>
+          <List.Item
+            onClick={() => Router.push(`/admin/alerts/edit/${x.id}`)}
+            style={{ cursor: "pointer" }}
+          >
             <Typography.Text>{x.title}</Typography.Text>
           </List.Item>
         )}

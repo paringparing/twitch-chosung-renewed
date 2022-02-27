@@ -11,6 +11,7 @@ import { RecoilRoot } from "recoil"
 import { Head } from "next/head"
 import "antd/dist/antd.css"
 import "../../stylesheets/main.css"
+import "../../stylesheets/markdown.css"
 import "rc-slider/assets/index.css"
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           body {
             margin: 0;
             user-select: none;
+            overflow-x: hidden;
           }
           * {
             box-sizing: border-box;

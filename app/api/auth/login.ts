@@ -73,6 +73,6 @@ export default (async (req, res) => {
       userId: user.id,
       role: user.role as Role,
     })
-    res.redirect("/")
+    res.redirect("/game")
   }
 }) as BlitzApiHandler

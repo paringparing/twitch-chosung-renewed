@@ -6,6 +6,10 @@ import LoginButton from "../../core/components/LoginButton"
 import { useScale } from "../utils/scale"
 import { useRecoilValue } from "recoil"
 import { SDisablePadding } from "../utils/store"
+import { Router, useQuery } from "blitz"
+import getLatestAlert from "../queries/getLatestAlert"
+import { Colors } from "../constants"
+import { MdCampaign } from "react-icons/md"
 
 const GameLayout: React.FC = (props) => {
   return (
@@ -34,6 +38,7 @@ const GameLayoutContent: React.FC = ({ children }) => {
   const user = useCurrentUser()
   const scale = useScale()
   const disablePadding = useRecoilValue(SDisablePadding)
+  const [latestAlert] = useQuery(getLatestAlert, null)
 
   return (
     <>
@@ -46,8 +51,33 @@ const GameLayoutContent: React.FC = ({ children }) => {
             }}
           >
             <Sidebar />
-            <div className="card" style={{ padding: disablePadding ? 0 : 60, width: 0 }}>
-              {children}
+            <div
+              style={{ flexGrow: 1, gap: 30, display: "flex", flexDirection: "column", width: 0 }}
+            >
+              {latestAlert && (
+                <div
+                  style={{
+                    background: Colors.red,
+                    height: 60,
+                    borderRadius: 20,
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "0 20px",
+                    color: "#fff",
+                    gap: 20,
+                    fontSize: 24,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => Router.push(`/announcements/${latestAlert.id}`)}
+                >
+                  <MdCampaign size={48} />
+                  {latestAlert.title}
+                </div>
+              )}
+              <div className="card" style={{ padding: disablePadding ? 0 : 60, height: 0 }}>
+                {children}
+              </div>
             </div>
           </div>
         ) : (

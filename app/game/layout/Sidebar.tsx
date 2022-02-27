@@ -8,15 +8,19 @@ import StreamerMenu from "./StreamerMenu"
 import Leaderboard from "./Leaderboard"
 import { useRecoilValue } from "recoil"
 import { SRankingData } from "../utils/store"
+import { useRouter } from "blitz"
 
 const Sidebar: React.FC = () => {
   const user = useCurrentUser()!
   const rankingData = useRecoilValue(SRankingData)
+  const router = useRouter()
+
+  const isResultPage = router.pathname !== "/game/play"
 
   return (
     <div className="container">
-      <Leaderboard />
-      {!rankingData && (
+      {!isResultPage && <Leaderboard />}
+      {(!rankingData || isResultPage) && (
         <div className="card">
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             {user.avatar ? (
