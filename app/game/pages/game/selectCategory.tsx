@@ -1,7 +1,7 @@
 import React from "react"
 import { BlitzPage, Router, useMutation, useQuery } from "blitz"
 import GameLayout from "../../layout"
-import { useRecoilState, useSetRecoilState } from "recoil"
+import { useRecoilState } from "recoil"
 import { FaArrowLeft } from "react-icons/fa"
 import Link from "next/link"
 import {
@@ -410,20 +410,6 @@ const SelectCategory: BlitzPage = () => {
             <CategoryList tab={selectedTab} query={query} />
           </React.Suspense>
         </div>
-        {selectedTab === TabType.OFFICIAL && (
-          <div style={{ fontSize: 24, fontWeight: 800 }}>
-            원하는 주제가 없나요?{" "}
-            <a
-              style={{ color: Colors.blue }}
-              href="https://forms.gle/KcNTRyAhbYWZf69P9"
-              target="_blank"
-              rel="noreferrer"
-            >
-              여기
-            </a>
-            에서 주제 추가를 요청해 보세요.
-          </div>
-        )}
       </div>
     </div>
   )
