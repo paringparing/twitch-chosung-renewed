@@ -10,7 +10,7 @@ const Leaderboard: React.FC = () => {
     if (!rankingData) {
       return []
     }
-    return _.sortBy(_.toPairs(rankingData!), (i) => i[1].score).map((x) => x[0])
+    return _.reverse(_.sortBy(_.toPairs(rankingData!), (i) => i[1].score).map((x) => x[0]))
   }, [rankingData])
 
   return (
@@ -45,6 +45,7 @@ const Leaderboard: React.FC = () => {
               flex-grow: 1;
               display: flex;
               flex-direction: column;
+              width: 0;
             }
             .item .text {
               flex-grow: 1;

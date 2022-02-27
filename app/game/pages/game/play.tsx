@@ -32,10 +32,6 @@ const correctSound = new Howl({
   src: "/assets/audio/correct.wav",
 })
 
-if (process.browser) {
-  ;(window as any).correctSound = correctSound
-}
-
 const Play: BlitzPage = () => {
   return (
     <React.Suspense
@@ -143,7 +139,7 @@ const PlayContent: React.FC = () => {
     return () => {
       tmi.removeListener("chat", listener)
     }
-  }, [t, currentWord.word, noAnswer, setMatchedUser, matchedUser])
+  }, [t, currentWord.word, noAnswer, setMatchedUser, matchedUser, endsAt])
 
   React.useEffect(() => {
     setEndsAt(Date.now() + maxTime * 1000)
@@ -160,7 +156,7 @@ const PlayContent: React.FC = () => {
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      if (matchedUser) {
+      if (matchedUser || noAnswer) {
         clearInterval(interval)
         return
       }
@@ -180,7 +176,7 @@ const PlayContent: React.FC = () => {
       clearInterval(interval)
     }
     // eslint-disable-next-line
-  }, [endsAt, maxTime, setRemainingTime, matchedUser])
+  }, [endsAt, maxTime, setRemainingTime, matchedUser, noAnswer])
 
   return (
     <div
@@ -271,6 +267,28 @@ const PlayContent: React.FC = () => {
                 color: Colors.blue,
                 background: "#72D4B4",
                 borderRadius: 10,
+              }}
+              onClick={() => {
+                if (currentWord.word[i] === x) {
+                  return
+                }
+                if (!shownChars.includes(i)) {
+                  const d = [...shownChars, i]
+                  setShownChars(d)
+                  const c = currentWord.word.split("").map((x, i) => {
+                    if (d.includes(i)) {
+                      return x
+                    }
+                    return Hangul.d(x)[0]
+                  })
+
+                  if (c.join("") === currentWord.word) {
+                    setShowCategory(true)
+                    setShowHint(true)
+                    setNoAnswer(true)
+                    setRemainingTime(0)
+                  }
+                }
               }}
             >
               {x}
