@@ -1,23 +1,20 @@
 import { Client } from "tmi.js"
 import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 
-let connected = false
-
-export const tmi = (process.browser ? new Client({}) : null) as Client
+let tmi: Client
 
 export const useTmi = (): Client => {
   const user = useCurrentUser()!
 
-  if (tmi.getChannels().includes(`#${user.channel}`)) {
+  if (tmi) {
     return tmi
   }
 
   throw (async () => {
-    if (!connected) {
-      await tmi.connect()
-      connected = true
-    }
-    await tmi.join(user.channel!)
-    console.log(`Connected to #${user.channel}`)
+    tmi = new Client({ channels: [user.channel] })
+
+    tmi.on("join", (channel) => console.log(`Connected to ${channel}`))
+
+    await tmi.connect()
   })()
 }

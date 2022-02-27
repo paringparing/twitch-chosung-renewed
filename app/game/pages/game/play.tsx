@@ -4,6 +4,7 @@ import {
   SCurrentWord,
   SCurrentWordIndex,
   SDisablePadding,
+  SNoAnswer,
   SSelectedCustomWords,
   SSelectedOfficialWords,
   SShowCategory,
@@ -19,6 +20,20 @@ import getWordCount from "../../queries/words/getWordCount"
 import GameLayout from "../../layout"
 import { Colors } from "../../constants"
 import Hangul from "hangul-js"
+import { useTmi } from "../../utils/tmi"
+import { ChatUserstate } from "tmi.js"
+import Overlay from "../../components/Overlay"
+import { Button } from "../../components/Button"
+import { Howl } from "howler"
+import _ from "lodash"
+
+const correctSound = new Howl({
+  src: "/assets/audio/correct.wav",
+})
+
+if (process.browser) {
+  ;(window as any).correctSound = correctSound
+}
 
 const Play: BlitzPage = () => {
   return (
@@ -58,7 +73,7 @@ const useRandomWords = () => {
       }
       const words = await getWordList({ official, custom })
 
-      setWords(words)
+      setWords(_.sampleSize(words, count))
     })()
   }
 
@@ -72,12 +87,14 @@ const PlayContent: React.FC = () => {
   const [currentWordIndex, setCurrentWordIndex] = useRecoilState(SCurrentWordIndex)
   const [endsAt, setEndsAt] = React.useState(() => Date.now() + maxTime * 1000)
   const [remainingTime, setRemainingTime] = React.useState(1)
-  const [noAnswer, setNoAnswer] = React.useState(false)
+  const [noAnswer, setNoAnswer] = useRecoilState(SNoAnswer)
   const [shownChars, setShownChars] = React.useState<number[]>([])
   const [showHint, setShowHint] = useRecoilState(SShowHint)
   const [showCategory, setShowCategory] = useRecoilState(SShowCategory)
+  const [matchedUser, setMatchedUser] = React.useState<string | null>(null)
+  const t = useTmi()
 
-  const currentWord = useRecoilValue(SCurrentWord)
+  const currentWord = useRecoilValue(SCurrentWord)!
 
   const setDisablePadding = useSetRecoilState(SDisablePadding)
 
@@ -91,12 +108,43 @@ const PlayContent: React.FC = () => {
   }, [currentWord.word, noAnswer, shownChars])
 
   React.useEffect(() => {
+    const tmi = t
+
+    const listener = (channel: string, us: ChatUserstate, message: string) => {
+      if (noAnswer) return
+      console.log(message, currentWord.word)
+      if (message === currentWord.word) {
+        correctSound.play()
+        setMatchedUser(us["display-name"] ?? us.username!)
+      }
+    }
+
+    tmi.on("chat", listener)
+
+    return () => {
+      tmi.removeListener("chat", listener)
+    }
+  }, [t, currentWord.word, noAnswer, setMatchedUser])
+
+  React.useEffect(() => {
+    setEndsAt(Date.now() + maxTime * 1000)
+  }, [currentWordIndex, maxTime])
+
+  React.useEffect(() => {
+    setShownChars([])
+  }, [currentWordIndex])
+
+  React.useEffect(() => {
     setDisablePadding(true)
     return () => setDisablePadding(false)
   }, [setDisablePadding])
 
   React.useEffect(() => {
     const interval = setInterval(() => {
+      if (matchedUser) {
+        clearInterval(interval)
+        return
+      }
       const remaining = endsAt - Date.now()
       if (remaining < 0) {
         clearInterval(interval)
@@ -113,7 +161,7 @@ const PlayContent: React.FC = () => {
       clearInterval(interval)
     }
     // eslint-disable-next-line
-  }, [endsAt, maxTime, setRemainingTime])
+  }, [endsAt, maxTime, setRemainingTime, matchedUser])
 
   return (
     <div
@@ -126,6 +174,29 @@ const PlayContent: React.FC = () => {
         borderRadius: 20,
       }}
     >
+      <Overlay open={!!matchedUser}>
+        <div style={{ fontSize: 64, fontWeight: 800, textAlign: "center", minWidth: 500 }}>
+          {currentWord.word}
+        </div>
+        <div style={{ fontSize: 48, fontWeight: 800, textAlign: "center" }}>
+          {matchedUser} 정답!
+        </div>
+        <Button
+          onClick={async () => {
+            if (words!.length - 1 === currentWordIndex) {
+              await Router.push("/game/result")
+            } else {
+              setShowHint(false)
+              setShowCategory(false)
+              setNoAnswer(false)
+              setMatchedUser(null)
+              setCurrentWordIndex(currentWordIndex + 1)
+            }
+          }}
+        >
+          {words!.length - 1 === currentWordIndex ? "결과 보기" : "다음"}
+        </Button>
+      </Overlay>
       <div
         style={{
           background: Colors.red,

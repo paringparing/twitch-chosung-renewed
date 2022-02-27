@@ -6,32 +6,38 @@ import { SChatData } from "../utils/store"
 import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 
 const ChatView: React.FC = () => {
-  const tmi = useTmi()
+  const t = useTmi()
   const [chatData, setChatData] = useRecoilState(SChatData)
   const container = React.useRef<HTMLDivElement | null>(null)
   const user = useCurrentUser()!
 
   React.useEffect(() => {
+    const tmi = t
+
     const onChat = (channel: string, us: ChatUserstate, message: string) => {
-      const newArray = [
-        ...chatData,
-        {
-          chat: message,
-          user: us["display-name"] ?? us.username!,
-        },
-      ]
-      if (newArray.length > 10) {
-        newArray.shift()
-      }
-      setChatData(newArray)
+      setChatData((chat) => {
+        const newArray = [
+          ...chat,
+          {
+            chat: message,
+            user: us["display-name"] ?? us.username!,
+          },
+        ]
+        if (newArray.length > 10) {
+          newArray.shift()
+        }
+        return newArray
+      })
     }
 
     tmi.on("chat", onChat)
 
     return () => {
+      console.log("reset")
       tmi.removeListener("chat", onChat)
+      console.log(tmi)
     }
-  }, [chatData, setChatData, tmi])
+  }, [setChatData, t])
 
   React.useEffect(() => {
     const c = container.current

@@ -46,10 +46,10 @@ export const SCurrentWordIndex = atom<number>({
   default: 0,
 })
 
-export const SCurrentWord = selector<{ word: string; hint: string; category: string }>({
+export const SCurrentWord = selector<{ word: string; hint: string; category: string } | null>({
   key: "game:currentWord",
   get: async ({ get }) => {
-    return get(SWords)![get(SCurrentWordIndex)]!
+    return get(SWords)?.[get(SCurrentWordIndex)] ?? null
   },
 })
 
@@ -60,5 +60,10 @@ export const SShowHint = atom<boolean>({
 
 export const SShowCategory = atom<boolean>({
   key: "game:showCategory",
+  default: false,
+})
+
+export const SNoAnswer = atom<boolean>({
+  key: "game:noAnswer",
   default: false,
 })

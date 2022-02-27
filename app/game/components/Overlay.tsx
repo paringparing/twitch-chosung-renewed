@@ -26,10 +26,11 @@ class Portal extends React.Component<any, any> {
 
 const Overlay: React.FC<
   React.StyleHTMLAttributes<HTMLDivElement> & {
-    button: React.ReactNode
+    button?: React.ReactNode
+    open?: boolean
     children: React.ReactNode | ((props: { close: () => void }) => React.ReactNode)
   }
-> = ({ children, button, style }) => {
+> = ({ children, button, open: openProp, style }) => {
   const scale = useScale()
   const [open, setOpen] = React.useState(false)
 
@@ -37,7 +38,7 @@ const Overlay: React.FC<
     <>
       <Portal>
         <AnimatePresence>
-          {open && (
+          {(openProp ?? open) && (
             <motion.div
               initial={{
                 opacity: 0,
@@ -110,13 +111,15 @@ const Overlay: React.FC<
           )}
         </AnimatePresence>
       </Portal>
-      <div
-        onClick={() => {
-          if (!(button as any).props.disabled) setOpen(true)
-        }}
-      >
-        {button}
-      </div>
+      {button && (
+        <div
+          onClick={() => {
+            if (!(button as any).props.disabled) setOpen(true)
+          }}
+        >
+          {button}
+        </div>
+      )}
     </>
   )
 }

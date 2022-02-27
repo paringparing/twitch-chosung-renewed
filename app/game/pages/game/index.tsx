@@ -2,10 +2,14 @@ import React from "react"
 import { BlitzPage, Router, useQuery } from "blitz"
 import GameLayout from "../../layout"
 import { MdAccessTime } from "react-icons/md"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
+  SCurrentWordIndex,
+  SNoAnswer,
   SSelectedCustomWords,
   SSelectedOfficialWords,
+  SShowCategory,
+  SShowHint,
   STimeLimit,
   SWordCount,
 } from "../../utils/store"
@@ -100,6 +104,11 @@ const Game: BlitzPage = () => {
 
   const available = React.useMemo(() => !!(official.length + custom.length), [official, custom])
 
+  const setCurrentWordIndex = useSetRecoilState(SCurrentWordIndex)
+  const setNoAnswer = useSetRecoilState(SNoAnswer)
+  const setShowHint = useSetRecoilState(SShowHint)
+  const setShowCategory = useSetRecoilState(SShowCategory)
+
   return (
     <div
       style={{
@@ -128,7 +137,13 @@ const Game: BlitzPage = () => {
       <Button
         disabled={!available}
         style={{ width: 400 }}
-        onClick={() => Router.push("/game/play")}
+        onClick={async () => {
+          setCurrentWordIndex(0)
+          setNoAnswer(false)
+          setShowHint(false)
+          setShowCategory(false)
+          await Router.push("/game/play")
+        }}
       >
         게임 시작
       </Button>

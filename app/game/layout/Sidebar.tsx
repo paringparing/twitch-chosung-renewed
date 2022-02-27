@@ -4,6 +4,7 @@ import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 import { Button } from "../components/Button"
 import { MdCopyAll } from "react-icons/md"
 import { message } from "antd"
+import StreamerMenu from "./StreamerMenu"
 
 const Sidebar: React.FC = () => {
   const user = useCurrentUser()!
@@ -37,14 +38,7 @@ const Sidebar: React.FC = () => {
         </Button>
       </div>
       <ChatView />
-      <div className="card streamerMenu">
-        <div style={{ fontSize: 40, fontWeight: 800 }}>스트리머용 메뉴</div>
-        <div style={{ fontSize: 24, fontWeight: 800 }}>
-          여기에 정답과 여러 메뉴들이 표시됩니다
-          <br />
-          방송화면에서 이 부분을 가려주세요
-        </div>
-      </div>
+      <StreamerMenu />
       <style jsx>{`
         .container {
           height: 100%;
