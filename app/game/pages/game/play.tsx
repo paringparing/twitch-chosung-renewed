@@ -5,6 +5,7 @@ import {
   SCurrentWordIndex,
   SDisablePadding,
   SNoAnswer,
+  SRankingData,
   SSelectedCustomWords,
   SSelectedOfficialWords,
   SShowCategory,
@@ -92,7 +93,9 @@ const PlayContent: React.FC = () => {
   const [showHint, setShowHint] = useRecoilState(SShowHint)
   const [showCategory, setShowCategory] = useRecoilState(SShowCategory)
   const [matchedUser, setMatchedUser] = React.useState<string | null>(null)
+  const [score, setScore] = React.useState<number>(0)
   const t = useTmi()
+  const [rankingData, setRankingData] = useRecoilState(SRankingData)
 
   const currentWord = useRecoilValue(SCurrentWord)!
 
@@ -111,11 +114,27 @@ const PlayContent: React.FC = () => {
     const tmi = t
 
     const listener = (channel: string, us: ChatUserstate, message: string) => {
-      if (noAnswer) return
+      if (noAnswer || matchedUser) return
       console.log(message, currentWord.word)
       if (message === currentWord.word) {
         correctSound.play()
-        setMatchedUser(us["display-name"] ?? us.username!)
+        const u = us["display-name"] ?? us.username!
+        setMatchedUser(u)
+        const score = Math.floor(10000 * ((endsAt - Date.now()) / (maxTime * 1000)))
+        setScore(score)
+        const d = { ...rankingData } ?? {}
+        if (d[u]) {
+          d[u] = {
+            score: d[u]!.score + score,
+            count: d[u]!.count + 1,
+          }
+        } else {
+          d[u] = {
+            score,
+            count: 1,
+          }
+        }
+        setRankingData(d)
       }
     }
 
@@ -124,7 +143,7 @@ const PlayContent: React.FC = () => {
     return () => {
       tmi.removeListener("chat", listener)
     }
-  }, [t, currentWord.word, noAnswer, setMatchedUser])
+  }, [t, currentWord.word, noAnswer, setMatchedUser, matchedUser])
 
   React.useEffect(() => {
     setEndsAt(Date.now() + maxTime * 1000)
@@ -181,6 +200,7 @@ const PlayContent: React.FC = () => {
         <div style={{ fontSize: 48, fontWeight: 800, textAlign: "center" }}>
           {matchedUser} 정답!
         </div>
+        <div style={{ fontSize: 36, fontWeight: 800, textAlign: "center" }}>{score}</div>
         <Button
           onClick={async () => {
             if (words!.length - 1 === currentWordIndex) {

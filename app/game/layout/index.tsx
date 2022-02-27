@@ -46,7 +46,7 @@ const GameLayoutContent: React.FC = ({ children }) => {
             }}
           >
             <Sidebar />
-            <div className="card" style={{ padding: disablePadding ? 0 : 60 }}>
+            <div className="card" style={{ padding: disablePadding ? 0 : 60, width: 0 }}>
               {children}
             </div>
           </div>

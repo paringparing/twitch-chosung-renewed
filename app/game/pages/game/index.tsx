@@ -6,12 +6,14 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
   SCurrentWordIndex,
   SNoAnswer,
+  SRankingData,
   SSelectedCustomWords,
   SSelectedOfficialWords,
   SShowCategory,
   SShowHint,
   STimeLimit,
   SWordCount,
+  SWords,
 } from "../../utils/store"
 import { Button } from "../../components/Button"
 import { Colors } from "../../constants"
@@ -108,6 +110,12 @@ const Game: BlitzPage = () => {
   const setNoAnswer = useSetRecoilState(SNoAnswer)
   const setShowHint = useSetRecoilState(SShowHint)
   const setShowCategory = useSetRecoilState(SShowCategory)
+  const setRankingData = useSetRecoilState(SRankingData)
+  const setWords = useSetRecoilState(SWords)
+
+  React.useEffect(() => {
+    setRankingData(null)
+  }, [])
 
   return (
     <div
@@ -142,6 +150,8 @@ const Game: BlitzPage = () => {
           setNoAnswer(false)
           setShowHint(false)
           setShowCategory(false)
+          setWords(null)
+          setRankingData({})
           await Router.push("/game/play")
         }}
       >

@@ -67,3 +67,8 @@ export const SNoAnswer = atom<boolean>({
   key: "game:noAnswer",
   default: false,
 })
+
+export const SRankingData = atom<Record<string, { score: number; count: number }> | null>({
+  key: "game:rankingData",
+  default: null,
+})
