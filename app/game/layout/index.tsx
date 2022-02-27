@@ -6,7 +6,7 @@ import LoginButton from "../../core/components/LoginButton"
 import { useScale } from "../utils/scale"
 import { useRecoilValue } from "recoil"
 import { SDisablePadding } from "../utils/store"
-import { Router, useQuery } from "blitz"
+import { Router, useQuery, useRouter } from "blitz"
 import getLatestAlert from "../queries/getLatestAlert"
 import { Colors } from "../constants"
 import { MdCampaign } from "react-icons/md"
@@ -39,6 +39,7 @@ const GameLayoutContent: React.FC = ({ children }) => {
   const scale = useScale()
   const disablePadding = useRecoilValue(SDisablePadding)
   const [latestAlert] = useQuery(getLatestAlert, null)
+  const router = useRouter()
 
   return (
     <>
@@ -54,7 +55,7 @@ const GameLayoutContent: React.FC = ({ children }) => {
             <div
               style={{ flexGrow: 1, gap: 30, display: "flex", flexDirection: "column", width: 0 }}
             >
-              {latestAlert && (
+              {latestAlert && router.pathname === "/game" && (
                 <div
                   style={{
                     background: Colors.red,
