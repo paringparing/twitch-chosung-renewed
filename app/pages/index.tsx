@@ -51,6 +51,37 @@ const Home: BlitzPage = () => {
           />
         </div>
       </div>
+      {/*<div*/}
+      {/*  style={{ minHeight: "100vh", width: "100%", display: "flex" }}*/}
+      {/*  className="responsiveFlex"*/}
+      {/*>*/}
+      {/*  <div*/}
+      {/*    style={{*/}
+      {/*      flexGrow: 1,*/}
+      {/*      display: "flex",*/}
+      {/*      justifyContent: "center",*/}
+      {/*      alignItems: "center",*/}
+      {/*      height: "100%",*/}
+      {/*      width: "100%",*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <div>Tutorial</div>*/}
+      {/*    <div>Tutorial</div>*/}
+      {/*  </div>*/}
+      {/*  <div*/}
+      {/*    style={{*/}
+      {/*      flexGrow: 1,*/}
+      {/*      display: "flex",*/}
+      {/*      justifyContent: "center",*/}
+      {/*      alignItems: "center",*/}
+      {/*      height: "100%",*/}
+      {/*      width: "100%",*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <div>Tutorial</div>*/}
+      {/*    <div>Tutorial</div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
       <style jsx>{`
         @media screen and (max-width: 1023px) {
           .responsiveFlex {

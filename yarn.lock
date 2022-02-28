@@ -3566,7 +3566,7 @@ dayjs@1.10.7, dayjs@1.x, dayjs@^1.10.6:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
 
-debug@2, debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
+debug@2, debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.6, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -4437,7 +4437,7 @@ extract-stack@^2.0.0:
   resolved "https://registry.yarnpkg.com/extract-stack/-/extract-stack-2.0.0.tgz#11367bc865bfcd9bc0db3123e5edb57786f11f9b"
   integrity sha512-AEo4zm+TenK7zQorGK1f9mJ8L14hnTDi2ZQPR+Mub1NX8zimka1mXpV5LpH8x9HoUmFSHZCfLHqWvp0Y4FxxzQ==
 
-fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
+fast-deep-equal@3.1.3, fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
@@ -4706,6 +4706,11 @@ fsevents@^2.1.2, fsevents@~2.3.1:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
+
+fun-dispatcher@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/fun-dispatcher/-/fun-dispatcher-1.2.6.tgz#6b140428bafa8cbec6a989ca89565125da98e27b"
+  integrity sha512-lw6LoVrReV6qlaADvy0ua9a1f3W9qGLd8BBfLnzIV0YCfZd3jo5caZsgBBGOw/tO50P783iFEK8aTSwtQ67KDQ==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -6551,6 +6556,11 @@ listr2@^3.12.2:
     through "^2.3.8"
     wrap-ansi "^7.0.0"
 
+load-script@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha1-BJGTngvuVkPuSUp+PaPSuscMbKQ=
+
 loader-utils@1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
@@ -8236,6 +8246,15 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
+prop-types@15.7.2:
+  version "15.7.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+  integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.8.1"
+
 prop-types@^15.0.0, prop-types@^15.7.2:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
@@ -8866,7 +8885,7 @@ react-is@17.0.2, "react-is@^16.12.0 || ^17.0.0", react-is@^17.0.0, react-is@^17.
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0:
+react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -8936,6 +8955,15 @@ react-test-renderer@17.0.1:
     react-is "^17.0.1"
     react-shallow-renderer "^16.13.1"
     scheduler "^0.20.1"
+
+react-youtube@7.14.0:
+  version "7.14.0"
+  resolved "https://registry.yarnpkg.com/react-youtube/-/react-youtube-7.14.0.tgz#0505d86491521ca94ef0afb74af3f7936dc7bc86"
+  integrity sha512-SUHZ4F4pd1EHmQu0CV0KSQvAs5KHOT5cfYaq4WLCcDbU8fBo1ouTXaAOIASWbrz8fHwg+G1evfoSIYpV2AwSAg==
+  dependencies:
+    fast-deep-equal "3.1.3"
+    prop-types "15.7.2"
+    youtube-player "5.5.2"
 
 react@18.0.0-beta-149b420f6-20211119:
   version "18.0.0-beta-149b420f6-20211119"
@@ -9519,6 +9547,11 @@ simple-wcswidth@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/simple-wcswidth/-/simple-wcswidth-1.0.1.tgz#8ab18ac0ae342f9d9b629604e54d2aa1ecb018b2"
   integrity sha512-xMO/8eNREtaROt7tJvWJqHBDTMFN4eiQ5I4JRMuilwfnFcV5W9u7RUkueNkdw0jPqGMX36iCywelS5yilTuOxg==
+
+sister@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/sister/-/sister-3.0.2.tgz#bb3e39f07b1f75bbe1945f29a27ff1e5a2f26be4"
+  integrity sha512-p19rtTs+NksBRKW9qn0UhZ8/TUI9BPw9lmtHny+Y3TinWlOa9jWh9xB0AtPSdmOy49NJJJSSe0Ey4C7h0TrcYA==
 
 sisteransi@^1.0.5:
   version "1.0.5"
@@ -10183,6 +10216,13 @@ tlds@1.224.0:
   version "1.224.0"
   resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.224.0.tgz#dc9a5b0bda0708af0302114f6e24458770c5af01"
   integrity sha512-Jgdc8SEijbDFUsmCn6Wk/f7E6jBLFZOG3U1xK0amGSfEH55Xx97ItUS/d2NngsuApjn11UeWCWj8Um3VRhseZQ==
+
+tlru@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/tlru/-/tlru-1.0.2.tgz#4cffb310f30099b4c56b3de49f6dd8fdfc657fb7"
+  integrity sha512-Jjrt6ebN0kR5gSTWkaU1LV44n8aFJkBnkX/YIwO+FBgrYNkDYE7Elx8i4vwiiCg/wf+YZixI166eOmT3y7Dn9Q==
+  dependencies:
+    fun-dispatcher "^1.2.6"
 
 tmi.js@1.8.5:
   version "1.8.5"
@@ -11083,6 +11123,15 @@ yoga-layout-prebuilt@^1.9.6:
   integrity sha512-YnOmtSbv4MTf7RGJMK0FvZ+KD8OEe/J5BNnR0GHhD8J/XcG/Qvxgszm0Un6FTHWW4uHlTgP0IztiXQnGyIR45g==
   dependencies:
     "@types/yoga-layout" "1.9.2"
+
+youtube-player@5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/youtube-player/-/youtube-player-5.5.2.tgz#052b86b1eabe21ff331095ffffeae285fa7f7cb5"
+  integrity sha512-ZGtsemSpXnDky2AUYWgxjaopgB+shFHgXVpiJFeNB5nWEugpW1KWYDaHKuLqh2b67r24GtP6HoSW5swvf0fFIQ==
+  dependencies:
+    debug "^2.6.6"
+    load-script "^1.0.0"
+    sister "^3.0.0"
 
 zip-stream@^4.1.0:
   version "4.1.0"

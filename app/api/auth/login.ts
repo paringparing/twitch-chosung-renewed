@@ -30,10 +30,14 @@ export default (async (req, res) => {
     params.append("redirect_uri", process.env.TWITCH_REDIRECT_URI!)
     params.append("code", req.query.code as string)
     params.append("grant_type", "authorization_code")
-    const { data } = await axios
+    const { data, res: resp } = (await axios
       .post<{ access_token: string }>("https://id.twitch.tv/oauth2/token", params)
-      .catch(() => ({ data: null }))
+      .catch((e) => ({ data: null, res: e.response }))) as unknown as {
+      data: { access_token: string }
+      res: any
+    }
     if (!data) {
+      console.error(resp.data)
       return res.json({ error: "Failed to get token" })
     }
     const userData = (await axios
