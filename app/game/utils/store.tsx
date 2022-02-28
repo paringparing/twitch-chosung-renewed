@@ -4,6 +4,7 @@ import React from "react"
 export type ChatData = {
   user: string
   chat: string
+  percent?: string
 }
 
 export const SChatData = atom<ChatData[]>({
@@ -71,4 +72,14 @@ export const SNoAnswer = atom<boolean>({
 export const SRankingData = atom<Record<string, { score: number; count: number }> | null>({
   key: "game:rankingData",
   default: null,
+})
+
+export const SShowPercent = atom<boolean>({
+  key: "game:showPercent",
+  default: true,
+})
+
+export const SShowAnswerInMenu = atom<boolean>({
+  key: "game:showAnswerInMenu",
+  default: true,
 })

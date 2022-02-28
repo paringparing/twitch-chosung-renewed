@@ -4,6 +4,7 @@ import {
   SCurrentWord,
   SCurrentWordIndex,
   SNoAnswer,
+  SShowAnswerInMenu,
   SShowCategory,
   SShowHint,
   SWords,
@@ -18,6 +19,7 @@ const StreamerMenu: React.FC = () => {
   const [showCategory, setShowCategory] = useRecoilState(SShowCategory)
   const [showHint, setShowHint] = useRecoilState(SShowHint)
   const [noAnswer, setNoAnswer] = useRecoilState(SNoAnswer)
+  const showAnswerInMenu = useRecoilValue(SShowAnswerInMenu)
   const router = useRouter()
 
   const isResultPage = router.pathname !== "/game/play"
@@ -26,11 +28,19 @@ const StreamerMenu: React.FC = () => {
     <div className="card streamerMenu" style={{ textAlign: currentWord ? "left" : "center" }}>
       {currentWord && !isResultPage ? (
         <>
-          <div style={{ width: "100%", display: "flex" }}>
-            <div style={{ flexGrow: 1, fontSize: 40, fontWeight: 800 }}>{currentWord.word}</div>
-            <div style={{ fontSize: 30 }}>{currentWord.category}</div>
-          </div>
-          <div style={{ flexGrow: 1, width: "100%", fontSize: 30 }}>{currentWord.hint}</div>
+          {showAnswerInMenu ? (
+            <>
+              {" "}
+              <div style={{ width: "100%", display: "flex" }}>
+                <div style={{ flexGrow: 1, fontSize: 40, fontWeight: 800 }}>{currentWord.word}</div>
+                <div style={{ fontSize: 30 }}>{currentWord.category}</div>
+              </div>
+              <div style={{ width: "100%", fontSize: 30 }}>{currentWord.hint}</div>
+            </>
+          ) : (
+            <div style={{ fontSize: 32, fontWeight: 800, width: "100%" }}>정답 보기 비활성화됨</div>
+          )}
+          <div style={{ flexGrow: 1 }} />
           <div style={{ display: "flex", gap: 10, width: "100%" }}>
             {noAnswer ? (
               <Button

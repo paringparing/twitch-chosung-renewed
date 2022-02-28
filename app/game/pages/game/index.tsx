@@ -9,8 +9,10 @@ import {
   SRankingData,
   SSelectedCustomWords,
   SSelectedOfficialWords,
+  SShowAnswerInMenu,
   SShowCategory,
   SShowHint,
+  SShowPercent,
   STimeLimit,
   SWordCount,
   SWords,
@@ -19,6 +21,7 @@ import { Button } from "../../components/Button"
 import { Colors } from "../../constants"
 import getWordCount from "../../queries/words/getWordCount"
 import Slider from "rc-slider"
+import { Checkbox } from "antd"
 
 const TimeInput: React.FC = () => {
   const [timeLimit, setTimeLimit] = useRecoilState(STimeLimit)
@@ -112,6 +115,8 @@ const Game: BlitzPage = () => {
   const setShowCategory = useSetRecoilState(SShowCategory)
   const setRankingData = useSetRecoilState(SRankingData)
   const setWords = useSetRecoilState(SWords)
+  const [showPercent, setShowPercent] = useRecoilState(SShowPercent)
+  const [showAnswerInMenu, setShowAnswerInMenu] = useRecoilState(SShowAnswerInMenu)
 
   React.useEffect(() => {
     setRankingData(null)
@@ -129,6 +134,36 @@ const Game: BlitzPage = () => {
       }}
     >
       <div style={{ fontSize: 64, fontWeight: 800 }}>게임 설정</div>
+      <label
+        style={{
+          display: "flex",
+          gap: 8,
+          width: 400,
+          alignItems: "center",
+          transform: "scale(2) translate(25%, 0)",
+          marginBottom: 5,
+        }}
+      >
+        <Checkbox checked={showPercent} onChange={(e) => setShowPercent(e.target.checked)} />
+        <span>채팅에 맞은 글자 개수 표시</span>
+      </label>
+      <label
+        style={{
+          display: "flex",
+          gap: 8,
+          width: 400,
+          alignItems: "center",
+          transform: "scale(2) translate(25%, 0)",
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      >
+        <Checkbox
+          checked={showAnswerInMenu}
+          onChange={(e) => setShowAnswerInMenu(e.target.checked)}
+        />
+        <span>스트리머 메뉴에 정답 표시</span>
+      </label>
       <TimeInput />
       {available && (
         <React.Suspense fallback="Loading...">
