@@ -76,7 +76,7 @@ const GameLayoutContent: React.FC = ({ children }) => {
                   {latestAlert.title}
                 </div>
               )}
-              <div className="card" style={{ padding: disablePadding ? 0 : 60, height: 0 }}>
+              <div className="card" style={{ padding: disablePadding ? 0 : 30, height: 0 }}>
                 {children}
               </div>
             </div>

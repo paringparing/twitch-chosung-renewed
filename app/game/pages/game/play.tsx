@@ -296,7 +296,9 @@ const PlayContent: React.FC = () => {
           ))}
         </div>
         {showHint && (
-          <div style={{ fontSize: 48, fontWeight: 800, marginTop: 20 }}>{currentWord.hint}</div>
+          <div style={{ fontSize: 48, fontWeight: 800, marginTop: 20, textAlign: "center" }}>
+            {currentWord.hint}
+          </div>
         )}
         {noAnswer && (
           <div style={{ fontSize: 64, fontWeight: 800, marginTop: 50 }}>
