@@ -62,23 +62,26 @@ const Result: BlitzPage = () => {
         <div className="stage" style={{ display: "flex", gap: 20 }}>
           <div className="item">
             <div className="text">{data[1]?.user}</div>
-            <div className="table" style={{ height: 180 }}>
+            <div className="table" style={{ height: 240 }}>
               <div className="rank">#2</div>
-              {data[1]?.score && <div className="score">{data[1]?.score}</div>}
+              {data[1]?.count && <div className="score">정답 {data[1]?.count}개</div>}
+              {data[1]?.score && <div className="score">{data[1]?.score}점</div>}
             </div>
           </div>
           <div className="item">
             <div className="text">{data[0]?.user}</div>
-            <div className="table" style={{ height: 240 }}>
+            <div className="table" style={{ height: 300 }}>
               <div className="rank">#1</div>
-              {data[0]?.score && <div className="score">{data[0]?.score}</div>}
+              {data[0]?.count && <div className="score">정답 {data[0]?.count}개</div>}
+              {data[0]?.score && <div className="score">{data[0]?.score}점</div>}
             </div>
           </div>
           <div className="item">
             <div className="text">{data[2]?.user}</div>
-            <div className="table" style={{ height: 120 }}>
+            <div className="table" style={{ height: 180 }}>
               <div className="rank">#3</div>
-              {data[2]?.score && <div className="score">{data[2]?.score}</div>}
+              {data[2]?.count && <div className="score">정답 {data[2]?.count}개</div>}
+              {data[2]?.score && <div className="score">{data[2]?.score}점</div>}
             </div>
           </div>
         </div>
