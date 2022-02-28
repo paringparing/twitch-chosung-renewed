@@ -1,6 +1,8 @@
 import { BlitzPage, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { Button } from "../game/components/Button"
+import YouTube from "react-youtube"
+import React from "react"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -8,6 +10,22 @@ import { Button } from "../game/components/Button"
  */
 
 const Home: BlitzPage = () => {
+  const videoContainerRef = React.useRef<HTMLDivElement | null>(null)
+  const [videoScale, setVideoScale] = React.useState(0)
+
+  React.useEffect(() => {
+    if (videoContainerRef.current) {
+      const observer = new ResizeObserver((entries) => {
+        const t = entries[0]!.contentRect
+        setVideoScale(Math.min(1, t.width / 1920, t.height / 1080))
+      })
+      observer.observe(videoContainerRef.current)
+      return () => {
+        observer.disconnect()
+      }
+    }
+  }, [videoContainerRef, setVideoScale])
+
   return (
     <div style={{ width: "100vw" }}>
       <div
@@ -51,47 +69,67 @@ const Home: BlitzPage = () => {
           />
         </div>
       </div>
-      {/*<div*/}
-      {/*  style={{ minHeight: "100vh", width: "100%", display: "flex" }}*/}
-      {/*  className="responsiveFlex"*/}
-      {/*>*/}
-      {/*  <div*/}
-      {/*    style={{*/}
-      {/*      flexGrow: 1,*/}
-      {/*      display: "flex",*/}
-      {/*      justifyContent: "center",*/}
-      {/*      alignItems: "center",*/}
-      {/*      height: "100%",*/}
-      {/*      width: "100%",*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <div>Tutorial</div>*/}
-      {/*    <div>Tutorial</div>*/}
-      {/*  </div>*/}
-      {/*  <div*/}
-      {/*    style={{*/}
-      {/*      flexGrow: 1,*/}
-      {/*      display: "flex",*/}
-      {/*      justifyContent: "center",*/}
-      {/*      alignItems: "center",*/}
-      {/*      height: "100%",*/}
-      {/*      width: "100%",*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <div>Tutorial</div>*/}
-      {/*    <div>Tutorial</div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+      <div
+        style={{
+          minHeight: "100vh",
+          width: "100%",
+          display: "flex",
+          justifyContent: "stretch",
+          alignItems: "stretch",
+        }}
+        className="responsiveFlexReverse"
+      >
+        <div
+          style={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 48,
+          }}
+          className="videoContainer"
+          ref={(instance) => (videoContainerRef.current = instance)}
+        >
+          <YouTube
+            videoId="viqeGyydZLA"
+            className="home__videoContainer"
+            opts={{
+              width: `${1920 * videoScale}`,
+              height: `${1080 * videoScale}`,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            flexGrow: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          className="videoContainer"
+        >
+          <div style={{ fontSize: 32, fontWeight: 800 }}>사용 설명</div>
+          <div style={{ fontSize: 18 }}>사용법을 모르시나요? 영상으로 알아보세요.</div>
+        </div>
+      </div>
       <style jsx>{`
         @media screen and (max-width: 1023px) {
           .responsiveFlex {
             flex-direction: column;
+          }
+          .responsiveFlexReverse {
+            flex-direction: column-reverse;
           }
           .section1 {
             flex-direction: column;
           }
           .section1:nth-child(0) {
             justify-content: flex-end;
+          }
+          .videoContainer {
+            width: unset !important;
+            height: 0;
           }
         }
         .section1 > div {
@@ -112,6 +150,9 @@ const Home: BlitzPage = () => {
           display: flex;
           gap: 20px;
           flex-wrap: wrap;
+        }
+        .videoContainer {
+          width: 0;
         }
       `}</style>
     </div>

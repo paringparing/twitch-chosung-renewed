@@ -20,7 +20,15 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
       <MainHeader />
       <div style={{ flexGrow: 1 }}>{children}</div>
       <div className="footer responsiveFlex">
-        <div style={{ display: "flex", alignItems: "center", width: "100%", paddingRight: 20 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            paddingRight: 20,
+            paddingLeft: 20,
+          }}
+        >
           <div style={{ fontSize: 18, fontWeight: 800, flexGrow: 1 }}>초성 퀴즈</div>
           <div>
             Designed & developed by{" "}
