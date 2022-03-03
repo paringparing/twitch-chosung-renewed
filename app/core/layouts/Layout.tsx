@@ -1,5 +1,6 @@
 import { Head, BlitzLayout } from "blitz"
 import MainHeader from "./MainHeader"
+import { FaTwitter } from "react-icons/fa"
 
 const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
   return (
@@ -19,39 +20,55 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
 
       <MainHeader />
       <div style={{ flexGrow: 1 }}>{children}</div>
-      <div className="footer responsiveFlex">
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            paddingRight: 20,
-            paddingLeft: 20,
-          }}
-        >
-          <div style={{ fontSize: 18, fontWeight: 800, flexGrow: 1 }}>초성 퀴즈</div>
-          <div>
-            Designed & developed by{" "}
-            <a
-              style={{ color: "#fff" }}
-              href="https://github.com/pikokr"
-              target="_blank"
-              rel="noreferrer"
-            >
-              pikokr
-            </a>{" "}
-            / morrc
+      <footer className="footer">
+        <div className="responsiveFlex" style={{ width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+            }}
+            className="responsiveFlex"
+          >
+            <div style={{ fontSize: 18, fontWeight: 800, flexGrow: 1 }}>초성 퀴즈</div>
+            <div>
+              Designed & developed by{" "}
+              <a
+                style={{ color: "#fff" }}
+                href="https://github.com/pikokr"
+                target="_blank"
+                rel="noreferrer"
+              >
+                pikokr
+              </a>{" "}
+              / morrc
+            </div>
           </div>
         </div>
-      </div>
+        <div>
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://twitter.com/chosungquiz"
+            style={{ color: "#fff" }}
+          >
+            <FaTwitter size={16} />
+          </a>
+        </div>
+      </footer>
       <style jsx>{`
         .footer {
           background: rgba(0, 0, 0, 0.4);
           color: #fff;
-          padding: 20px;
           display: flex;
           gap: 20px;
           flex-wrap: wrap;
+          padding: 20px 40px;
+        }
+        @media (max-width: 768px) {
+          .responsiveFlex {
+            flex-direction: column;
+          }
         }
       `}</style>
     </div>
