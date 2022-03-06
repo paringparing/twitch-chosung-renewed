@@ -3,6 +3,7 @@ import Layout from "app/core/layouts/Layout"
 import { Button } from "../game/components/Button"
 import YouTube from "react-youtube"
 import React from "react"
+import { FaChevronDown } from "react-icons/fa"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -53,6 +54,16 @@ const Home: BlitzPage = () => {
           >
             플레이하기
           </Button>
+          <FaChevronDown
+            onClick={() => {
+              window.scrollTo({
+                behavior: "smooth",
+                top: window.innerHeight,
+              })
+            }}
+            size={32}
+            style={{ marginTop: 24, cursor: "pointer" }}
+          />
         </div>
         <div style={{ width: "60%" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
