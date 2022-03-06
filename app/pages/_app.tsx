@@ -21,11 +21,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <RecoilRoot>
       <Head>
         <title>초성 퀴즈</title>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8394045556541803"
-          crossOrigin="anonymous"
-        />
         <link
           rel="stylesheet"
           type="text/css"

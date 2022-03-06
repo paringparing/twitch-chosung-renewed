@@ -79,6 +79,7 @@ const GameLayoutContent: React.FC = ({ children }) => {
               <div className="card" style={{ padding: disablePadding ? 0 : 30, height: 0 }}>
                 {children}
               </div>
+              {/*<div style={{ height: 90, width: 728 }} ref={(i) => (adArea.current = i)} />*/}
             </div>
           </div>
         ) : (
