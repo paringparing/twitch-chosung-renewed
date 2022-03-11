@@ -38,30 +38,6 @@ const AnnouncementList: BlitzPage = () => {
 const AnnouncementListContent: React.FC = () => {
   const [announcements] = useQuery(getAnnouncementList, null)
 
-  const adArea = React.useRef<HTMLDivElement | null>(null)
-
-  React.useEffect(() => {
-    if (adArea.current) {
-      const container = adArea.current
-      const ins = document.createElement("ins")
-      const script = document.createElement("script")
-      ins.className = "kakao_ad_area"
-      ins.style.display = "none"
-      script.async = Boolean("true")
-      script.type = "text/javascript"
-      script.src = "//t1.daumcdn.net/kas/static/ba.min.js"
-      ins.setAttribute("data-ad-width", "728")
-      ins.setAttribute("data-ad-height", "90")
-      ins.setAttribute("data-ad-unit", "DAN-KiSYEMQGDb95Mfiy")
-      container.appendChild(ins)
-      container.appendChild(script)
-      return () => {
-        ins.remove()
-        script.remove()
-      }
-    }
-  }, [])
-
   return (
     <div
       style={{ width: "100%", display: "flex", flexDirection: "column", gap: 20, marginTop: 10 }}
@@ -82,10 +58,6 @@ const AnnouncementListContent: React.FC = () => {
           </a>
         </Link>
       ))}
-      <div
-        style={{ display: "flex", justifyContent: "center" }}
-        ref={(i) => (adArea.current = i)}
-      />
     </div>
   )
 }

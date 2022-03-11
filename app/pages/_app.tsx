@@ -26,6 +26,12 @@ export default function App({ Component, pageProps }: AppProps) {
           type="text/css"
           href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css"
         />
+        <script
+          async
+          defer
+          data-website-id="5811b74c-3768-41b7-8cd8-039e8974a720"
+          src="https://analytics.kimusoft.dev/umami.js"
+        />
       </Head>
       <ErrorBoundary
         FallbackComponent={RootErrorFallback}
