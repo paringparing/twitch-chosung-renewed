@@ -11,6 +11,7 @@ import {
 } from "../utils/store"
 import { Button } from "../components/Button"
 import { Router, useRouter } from "blitz"
+import { Colors } from "../constants"
 
 const StreamerMenu: React.FC = () => {
   const currentWord = useRecoilValue(SCurrentWord)
@@ -35,12 +36,23 @@ const StreamerMenu: React.FC = () => {
                 <div style={{ flexGrow: 1, fontSize: 40, fontWeight: 800 }}>{currentWord.word}</div>
                 <div style={{ fontSize: 30 }}>{currentWord.category}</div>
               </div>
-              <div style={{ width: "100%", fontSize: 30 }}>{currentWord.hint}</div>
+              {/*<div style={{ width: "100%", fontSize: 30 }}>{currentWord.hint}</div>*/}
             </>
           ) : (
             <div style={{ fontSize: 32, fontWeight: 800, width: "100%" }}>정답 보기 비활성화됨</div>
           )}
           <div style={{ flexGrow: 1 }} />
+          <div style={{ width: "100%" }}>
+            <Button
+              style={{ width: "100%" }}
+              color={Colors.red}
+              onClick={async () => {
+                await Router.push("/game/result")
+              }}
+            >
+              게임 즉시 종료(결과 보기)
+            </Button>
+          </div>
           <div style={{ display: "flex", gap: 10, width: "100%" }}>
             {noAnswer ? (
               <Button
