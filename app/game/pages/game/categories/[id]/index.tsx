@@ -353,7 +353,13 @@ const CategoryEditorContent: BlitzPage = () => {
     return i
   }, [router.query.id])
 
-  const [item, { refetch }] = useQuery(getFullCategory, id)
+  const [item, { refetch }] = useQuery(getFullCategory, id, {
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchIntervalInBackground: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  })
   const [addSharedUserMutation] = useMutation(addSharedUser)
   const [removeSharedUserMutation] = useMutation(removeSharedUser)
   const [deleteMutation] = useMutation(deleteCategory)
