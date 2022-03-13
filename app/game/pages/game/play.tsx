@@ -81,7 +81,7 @@ const useRandomWords = () => {
 const PlayContent: React.FC = () => {
   useRandomWords()
   const maxTime = useRecoilValue(STimeLimit)
-  const [words, setWords] = useRecoilState(SWords)
+  const [words] = useRecoilState(SWords)
   const [currentWordIndex, setCurrentWordIndex] = useRecoilState(SCurrentWordIndex)
   const [endsAt, setEndsAt] = React.useState(() => Date.now() + maxTime * 1000)
   const [remainingTime, setRemainingTime] = React.useState(1)
@@ -141,6 +141,7 @@ const PlayContent: React.FC = () => {
     return () => {
       tmi.removeListener("chat", listener)
     }
+    // eslint-disable-next-line
   }, [t, currentWord.word, noAnswer, setMatchedUser, matchedUser, endsAt])
 
   React.useEffect(() => {
@@ -195,6 +196,7 @@ const PlayContent: React.FC = () => {
         clearTimeout(timeout)
       }
     }
+    // eslint-disable-next-line
   }, [matchedUser])
 
   return (

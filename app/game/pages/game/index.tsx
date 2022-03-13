@@ -122,6 +122,7 @@ const Game: BlitzPage = () => {
 
   React.useEffect(() => {
     setRankingData(null)
+    // eslint-disable-next-line
   }, [])
 
   return (
