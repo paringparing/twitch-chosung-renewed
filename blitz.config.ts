@@ -1,4 +1,5 @@
 import { BlitzConfig, sessionMiddleware, simpleRolesIsAuthorized } from "blitz"
+const withPWA = require("next-pwa")
 
 const config: BlitzConfig = {
   middleware: [
@@ -16,4 +17,9 @@ const config: BlitzConfig = {
   },
   */
 }
-module.exports = config
+module.exports = withPWA({
+  ...config,
+  pwa: {
+    dest: "public",
+  },
+})

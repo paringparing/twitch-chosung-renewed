@@ -4,6 +4,7 @@ import GameLayout from "../../layout"
 import { MdAccessTime } from "react-icons/md"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
+  SAutoSkip,
   SCurrentWordIndex,
   SNoAnswer,
   SRankingData,
@@ -117,6 +118,7 @@ const Game: BlitzPage = () => {
   const setWords = useSetRecoilState(SWords)
   const [showPercent, setShowPercent] = useRecoilState(SShowPercent)
   const [showAnswerInMenu, setShowAnswerInMenu] = useRecoilState(SShowAnswerInMenu)
+  const [autoSkip, setAutoSkip] = useRecoilState(SAutoSkip)
 
   React.useEffect(() => {
     setRankingData(null)
@@ -146,6 +148,20 @@ const Game: BlitzPage = () => {
       >
         <Checkbox checked={showPercent} onChange={(e) => setShowPercent(e.target.checked)} />
         <span>채팅에 맞은 글자 개수 표시</span>
+      </label>
+      <label
+        style={{
+          display: "flex",
+          gap: 8,
+          width: 400,
+          alignItems: "center",
+          transform: "scale(2) translate(25%, 0)",
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      >
+        <Checkbox checked={autoSkip} onChange={(e) => setAutoSkip(e.target.checked)} />
+        <span>정답 후 5초 뒤 자동 스킵</span>
       </label>
       <label
         style={{

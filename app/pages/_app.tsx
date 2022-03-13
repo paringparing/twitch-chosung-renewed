@@ -32,6 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
           data-website-id="5811b74c-3768-41b7-8cd8-039e8974a720"
           src="https://analytics.kimusoft.dev/umami.js"
         />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <ErrorBoundary
         FallbackComponent={RootErrorFallback}

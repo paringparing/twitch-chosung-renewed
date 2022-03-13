@@ -83,3 +83,8 @@ export const SShowAnswerInMenu = atom<boolean>({
   key: "game:showAnswerInMenu",
   default: true,
 })
+
+export const SAutoSkip = atom<boolean>({
+  key: "game:autoSkip",
+  default: false,
+})

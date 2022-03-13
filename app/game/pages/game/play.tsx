@@ -1,6 +1,7 @@
 import React from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
+  SAutoSkip,
   SCurrentWord,
   SCurrentWordIndex,
   SDisablePadding,
@@ -92,6 +93,7 @@ const PlayContent: React.FC = () => {
   const [score, setScore] = React.useState<number>(0)
   const t = useTmi()
   const [rankingData, setRankingData] = useRecoilState(SRankingData)
+  const autoSkip = useRecoilValue(SAutoSkip)
 
   const currentWord = useRecoilValue(SCurrentWord)!
 
@@ -177,6 +179,23 @@ const PlayContent: React.FC = () => {
     }
     // eslint-disable-next-line
   }, [endsAt, maxTime, setRemainingTime, matchedUser, noAnswer])
+
+  React.useEffect(() => {
+    if (matchedUser && autoSkip) {
+      const timeout = setTimeout(() => {
+        if (!(words!.length - 1 === currentWordIndex)) {
+          setShowHint(false)
+          setShowCategory(false)
+          setNoAnswer(false)
+          setMatchedUser(null)
+          setCurrentWordIndex(currentWordIndex + 1)
+        }
+      }, 5000)
+      return () => {
+        clearTimeout(timeout)
+      }
+    }
+  }, [matchedUser])
 
   return (
     <div
