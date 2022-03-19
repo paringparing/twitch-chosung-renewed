@@ -90,6 +90,11 @@ const PlayContent: React.FC = () => {
   const [showHint, setShowHint] = useRecoilState(SShowHint)
   const [showCategory, setShowCategory] = useRecoilState(SShowCategory)
   const [matchedUser, setMatchedUser] = React.useState<string | null>(null)
+  const [matchedWord, setMatchedWord] = React.useState<{
+    word: string
+    hint: string
+    category: string
+  } | null>(null)
   const [score, setScore] = React.useState<number>(0)
   const t = useTmi()
   const [rankingData, setRankingData] = useRecoilState(SRankingData)
@@ -118,6 +123,7 @@ const PlayContent: React.FC = () => {
         correctSound.play()
         const u = us["display-name"] ?? us.username!
         setMatchedUser(u)
+        setMatchedWord(currentWord)
         const score = Math.floor(10000 * ((endsAt - Date.now()) / (maxTime * 1000)))
         setScore(score)
         const d = { ...rankingData } ?? {}
@@ -182,7 +188,7 @@ const PlayContent: React.FC = () => {
   }, [endsAt, maxTime, setRemainingTime, matchedUser, noAnswer])
 
   React.useEffect(() => {
-    if (matchedUser && autoSkip) {
+    if ((matchedUser || noAnswer) && autoSkip) {
       const timeout = setTimeout(() => {
         if (!(words!.length - 1 === currentWordIndex)) {
           setShowHint(false)
@@ -197,7 +203,7 @@ const PlayContent: React.FC = () => {
       }
     }
     // eslint-disable-next-line
-  }, [matchedUser])
+  }, [matchedUser, noAnswer])
 
   return (
     <div
@@ -210,9 +216,9 @@ const PlayContent: React.FC = () => {
         borderRadius: 20,
       }}
     >
-      <Overlay open={!!matchedUser}>
+      <Overlay open={!!matchedUser && !!matchedWord}>
         <div style={{ fontSize: 64, fontWeight: 800, textAlign: "center", minWidth: 500 }}>
-          {currentWord.word}
+          {matchedWord?.word}
         </div>
         <div style={{ fontSize: 48, fontWeight: 800, textAlign: "center" }}>
           {matchedUser} 정답!
