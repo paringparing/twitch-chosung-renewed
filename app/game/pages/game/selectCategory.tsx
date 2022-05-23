@@ -148,7 +148,9 @@ const CategoryList: React.FC<{ query: string; tab: TabType }> = ({ query, tab })
 
   const [currentPage, setCurrentPage] = React.useState(0)
 
-  React.useEffect(() => {setCurrentPage(0)}, [tab, query])
+  React.useEffect(() => {
+    setCurrentPage(0)
+  }, [tab, query])
 
   const [{ categories, count }] = useQuery(queryToRun, { query, page: currentPage })
 

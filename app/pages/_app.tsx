@@ -26,7 +26,11 @@ export default function App({ Component, pageProps }: AppProps) {
           type="text/css"
           href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css"
         />
-        <script defer data-domain="csquiz.link" src="https://analytics.kimusoft.dev/js/plausible.js"/>
+        <script
+          defer
+          data-domain="csquiz.link"
+          src="https://analytics.kimusoft.dev/js/plausible.js"
+        />
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <ErrorBoundary
