@@ -42,7 +42,7 @@ class MyDocument extends Document {
         <body>
           <Main />
           <BlitzScript />
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8394045556541803" crossorigin="anonymous"/>
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8394045556541803" crossOrigin="anonymous"/>
         </body>
       </Html>
     )
