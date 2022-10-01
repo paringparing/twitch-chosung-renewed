@@ -26,8 +26,9 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
         <title>초성 퀴즈</title>
         <link
           rel="stylesheet"
-          type="text/css"
-          href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css"
+          as="style"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/variable/pretendardvariable.css"
         />
         <script
           defer
@@ -51,7 +52,7 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
           }
           * {
             box-sizing: border-box;
-            font-family: NanumSquareRound, sans-serif;
+            font-family: Pretendard, sans-serif;
           }
 
           .dropdownContainer li {
