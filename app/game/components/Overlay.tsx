@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { useScale } from "../utils/scale"
 import { AnimatePresence, motion } from "framer-motion"
+import { Colors } from "../constants"
 
 class Portal extends React.Component<any, any> {
   el: HTMLDivElement
@@ -75,7 +76,7 @@ const Overlay: React.FC<
                   },
                 }}
                 style={{
-                  background: "#6BD0B8",
+                  background: Colors.purple,
                   borderRadius: 20,
                   padding: 40,
                   display: "flex",

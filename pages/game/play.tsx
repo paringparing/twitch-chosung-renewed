@@ -262,11 +262,20 @@ const PlayContent: React.FC = () => {
         }}
       >
         {showCategory && (
-          <div style={{ position: "absolute", left: 30, top: 30, fontSize: 64, fontWeight: 800 }}>
+          <div
+            style={{
+              position: "absolute",
+              left: 30,
+              top: 30,
+              fontSize: 64,
+              fontWeight: 800,
+              mixBlendMode: "difference",
+            }}
+          >
             {currentWord.category}
           </div>
         )}
-        <div style={{ fontSize: 64, fontWeight: 800 }}>
+        <div style={{ fontSize: 64, mixBlendMode: "difference", fontWeight: 800 }}>
           라운드 {currentWordIndex + 1} / {words?.length}
         </div>
         <div
@@ -275,7 +284,6 @@ const PlayContent: React.FC = () => {
             display: "flex",
             flexWrap: "wrap",
             padding: 10,
-            background: Colors.blue,
             justifyContent: "center",
             borderRadius: 20,
             gap: 10,
@@ -293,9 +301,10 @@ const PlayContent: React.FC = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 fontWeight: 800,
-                color: Colors.blue,
-                background: "#72D4B4",
                 borderRadius: 10,
+                borderColor: Colors.blue,
+                borderWidth: 12,
+                borderStyle: "solid",
               }}
               onClick={() => {
                 if (currentWord.word[i] === x) {
@@ -320,17 +329,25 @@ const PlayContent: React.FC = () => {
                 }
               }}
             >
-              {x}
+              <span style={{ mixBlendMode: "difference" }}>{x}</span>
             </div>
           ))}
         </div>
         {showHint && (
-          <div style={{ fontSize: 48, fontWeight: 800, marginTop: 20, textAlign: "center" }}>
+          <div
+            style={{
+              fontSize: 48,
+              mixBlendMode: "difference",
+              fontWeight: 800,
+              marginTop: 20,
+              textAlign: "center",
+            }}
+          >
             {currentWord.hint}
           </div>
         )}
         {noAnswer && (
-          <div style={{ fontSize: 64, fontWeight: 800, marginTop: 50 }}>
+          <div style={{ fontSize: 64, mixBlendMode: "difference", fontWeight: 800, marginTop: 50 }}>
             아무도 답을 맞히지 못했습니다
           </div>
         )}

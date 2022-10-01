@@ -16,6 +16,8 @@ import "../stylesheets/main.css"
 import "../stylesheets/markdown.css"
 import "rc-slider/assets/index.css"
 import { AuthenticationError, AuthorizationError } from "blitz"
+import NextNProgress from "nextjs-progressbar"
+import { Colors } from "app/game/constants"
 
 export default withBlitz(function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
@@ -37,6 +39,7 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
         />
         <link rel="manifest" href="/manifest.json" />
       </Head>
+      <NextNProgress color={Colors.blue} />
       <ErrorBoundary
         FallbackComponent={RootErrorFallback}
         onReset={useQueryErrorResetBoundary().reset}

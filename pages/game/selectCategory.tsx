@@ -89,7 +89,7 @@ const ItemCard: React.FC<{
   return (
     <div
       style={{
-        background: selected ? Colors.blue : "#7DDDC0",
+        background: selected ? Colors.purple : "rgba(255, 255, 255, 0.2)",
         padding: 20,
         borderRadius: 20,
         cursor: "pointer",
@@ -114,7 +114,7 @@ const ItemCard: React.FC<{
     >
       <div
         style={{
-          background: "#7DDDC0",
+          background: "rgba(255, 255, 255, 0.2)",
           borderRadius: 10,
           padding: 12,
           height: "100%",
