@@ -95,7 +95,8 @@ const ItemCard: React.FC<{
         cursor: "pointer",
         transition: "all ease .2s",
       }}
-      onClick={() => {
+      onClick={(e) => {
+        if (e.defaultPrevented) return
         if (tab === TabType.OFFICIAL) {
           if (selected) {
             setOfficial(official.filter((x) => x !== item.id))
@@ -111,23 +112,61 @@ const ItemCard: React.FC<{
         }
       }}
     >
-      <div style={{ background: "#7DDDC0", borderRadius: 10, padding: 20, height: "100%" }}>
+      <div
+        style={{
+          background: "#7DDDC0",
+          borderRadius: 10,
+          padding: 12,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <div style={{ display: "flex" }}>
-          <div style={{ fontSize: 32, flexGrow: 1, fontWeight: 800 }}>{item.name}</div>
+          <div
+            style={{
+              fontSize: 24,
+              flexGrow: 1,
+              fontWeight: 800,
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              width: 0,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item.name}
+          </div>
           {tab === TabType.ME && (
-            <MdEdit onClick={() => Router.push(`/game/categories/${item.id}`)} size={24} />
+            <MdEdit
+              onClick={(e) => {
+                e.preventDefault()
+                Router.push(`/game/categories/${item.id}`)
+              }}
+              size={24}
+            />
           )}
+          {item.owner && <div style={{ fontSize: 18 }}>{item.owner}</div>}
         </div>
-        {item.owner && <div style={{ fontSize: 24 }}>제작자: {item.owner}</div>}
+
         <div style={{ display: "flex" }}>
           {new Array(item.difficulty).fill(0).map((x, i) => (
-            <MdStar size={28} key={i} />
+            <MdStar size={22} key={i} />
           ))}
           {new Array(10 - item.difficulty).fill(0).map((x, i) => (
-            <MdStarBorder size={28} key={i} />
+            <MdStarBorder size={22} key={i} />
           ))}
         </div>
-        <div style={{ fontSize: 24 }}>{item.description}</div>
+        <div
+          style={{
+            fontSize: 16,
+            height: 0,
+            overflow: "auto",
+            flexGrow: 1,
+          }}
+          className="scrollbar-narrow"
+        >
+          {item.description}
+        </div>
       </div>
     </div>
   )
