@@ -23,15 +23,33 @@ const AnnouncementViewer: BlitzPage<Props> = ({ alert }) => {
           marginLeft: "auto",
           marginRight: "auto",
           maxWidth: 1100,
-          background: "rgba(255, 255, 255, 0.5)",
-          padding: 30,
-          borderRadius: 20,
+          background: "rgba(0, 0, 0, 0.2)",
+          padding: 24,
+          borderRadius: 8,
           display: "flex",
           flexDirection: "column",
+          color: "#fff",
         }}
       >
-        <div style={{ fontSize: 32, fontWeight: 800 }}>{alert.title}</div>
-        <div style={{ fontSize: 16 }}>{date}</div>
+        <div style={{ display: "flex", alignItems: "flex-end" }}>
+          <div style={{ fontSize: 32, flexGrow: 1, width: 0, fontWeight: 800 }}>{alert.title}</div>
+          <div style={{ fontSize: 16 }}>{date}</div>
+        </div>
+      </div>
+      <div
+        style={{
+          marginTop: 16,
+          marginLeft: "auto",
+          marginRight: "auto",
+          maxWidth: 1100,
+          background: "rgba(0, 0, 0, 0.2)",
+          padding: 24,
+          borderRadius: 8,
+          display: "flex",
+          flexDirection: "column",
+          color: "#fff",
+        }}
+      >
         <div className="markdown-body" style={{ marginTop: 10 }}>
           <ReactMarkdown>{alert.content}</ReactMarkdown>
         </div>
