@@ -41,9 +41,9 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                 target="_blank"
                 rel="noreferrer"
               >
-                pikokr
+                pikokr(main dev)
               </a>{" "}
-              / morrc
+              / morrc(official categories)
             </div>
           </div>
         </div>
