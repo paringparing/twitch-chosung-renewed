@@ -18,7 +18,8 @@ const GameLayout: React.FC<PropsWithChildren> = (props) => {
       fallback={
         <div
           style={{
-            background: "linear-gradient(135deg, #00c98d 0%, #72c8ae 100%)",
+            background:
+              "linear-gradient(to right,rgb(249, 168, 212),rgb(216, 180, 254),rgb(129, 140, 248))",
             width: "100vw",
             height: "100vh",
             display: "flex",

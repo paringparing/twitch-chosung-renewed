@@ -9,7 +9,8 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
       style={{
         width: "100vw",
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #00C98D 0%, #72C8AE 100%)",
+        background:
+          "linear-gradient(to right,rgb(249, 168, 212),rgb(216, 180, 254),rgb(129, 140, 248))",
         display: "flex",
         flexDirection: "column",
       }}
