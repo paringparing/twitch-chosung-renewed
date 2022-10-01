@@ -1,4 +1,4 @@
-import { resolver } from "blitz"
+import { resolver } from "@blitzjs/rpc"
 import editCustomCategory from "../../validation/editCustomCategory"
 import db from "../../../../db"
 

@@ -1,4 +1,4 @@
-import { resolver } from "blitz"
+import { resolver } from "@blitzjs/rpc"
 import addSharedUser from "../../validation/addSharedUser"
 import db from "db"
 

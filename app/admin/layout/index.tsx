@@ -1,9 +1,11 @@
-import React from "react"
-import { AuthorizationError, BlitzLayout, Router } from "blitz"
+import Router from "next/router"
+import { BlitzLayout } from "@blitzjs/next"
+import React, { PropsWithChildren } from "react"
 import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 import { RevolvingDot } from "react-loader-spinner"
 import { Layout, Menu } from "antd"
 import { AlertOutlined, DashboardOutlined, OrderedListOutlined } from "@ant-design/icons"
+import { AuthorizationError } from "blitz"
 
 const AdminLayout: BlitzLayout = (props) => {
   return (
@@ -28,7 +30,7 @@ const AdminLayout: BlitzLayout = (props) => {
   )
 }
 
-const AdminLayoutContent: React.FC = ({ children }) => {
+const AdminLayoutContent: React.FC<PropsWithChildren> = ({ children }) => {
   const user = useCurrentUser()
 
   if (user?.role !== "ADMIN") {

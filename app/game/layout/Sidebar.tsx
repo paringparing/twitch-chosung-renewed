@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import React from "react"
 import ChatView from "./ChatView"
 import { useCurrentUser } from "../../core/hooks/useCurrentUser"
@@ -8,7 +9,6 @@ import StreamerMenu from "./StreamerMenu"
 import Leaderboard from "./Leaderboard"
 import { useRecoilValue } from "recoil"
 import { SRankingData } from "../utils/store"
-import { useRouter } from "blitz"
 
 const Sidebar: React.FC = () => {
   const user = useCurrentUser()!

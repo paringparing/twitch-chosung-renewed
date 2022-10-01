@@ -1,5 +1,5 @@
+import { resolver } from "@blitzjs/rpc"
 import db from "../../../../db"
-import { resolver } from "blitz"
 
 export default resolver.pipe(
   resolver.authorize("ADMIN"),

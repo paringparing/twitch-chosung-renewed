@@ -1,6 +1,7 @@
-import { NotFoundError, resolver } from "blitz"
+import { resolver } from "@blitzjs/rpc"
 import { z } from "zod"
 import db from "db"
+import { NotFoundError } from "blitz"
 
 const schema = z.object({
   id: z.number(),

@@ -1,11 +1,11 @@
+import { validateZodSchema } from "blitz"
 import { ReactNode, PropsWithoutRef } from "react"
 import { Form as FinalForm, FormProps as FinalFormProps, FormRenderProps } from "react-final-form"
 import { z } from "zod"
-import { validateZodSchema } from "blitz"
 export { FORM_ERROR } from "final-form"
 
 export interface FormProps<S extends z.ZodType<any, any>>
-  extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
+  extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit" | "children"> {
   /** All your form fields */
   children: (props: FormRenderProps) => ReactNode
   /** Text to display in the submit button */

@@ -1,4 +1,6 @@
-import React from "react"
+import { useQuery } from "@blitzjs/rpc"
+import Router, { useRouter } from "next/router"
+import React, { PropsWithChildren } from "react"
 import Sidebar from "./Sidebar"
 import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 import { RevolvingDot } from "react-loader-spinner"
@@ -6,12 +8,11 @@ import LoginButton from "../../core/components/LoginButton"
 import { useScale } from "../utils/scale"
 import { useRecoilValue } from "recoil"
 import { SDisablePadding } from "../utils/store"
-import { Router, useQuery, useRouter } from "blitz"
 import getLatestAlert from "../queries/getLatestAlert"
 import { Colors } from "../constants"
 import { MdCampaign } from "react-icons/md"
 
-const GameLayout: React.FC = (props) => {
+const GameLayout: React.FC<PropsWithChildren> = (props) => {
   return (
     <React.Suspense
       fallback={
@@ -34,7 +35,7 @@ const GameLayout: React.FC = (props) => {
   )
 }
 
-const GameLayoutContent: React.FC = ({ children }) => {
+const GameLayoutContent: React.FC<PropsWithChildren> = ({ children }) => {
   const user = useCurrentUser()
   const scale = useScale()
   const disablePadding = useRecoilValue(SDisablePadding)

@@ -1,4 +1,5 @@
-import { Head, BlitzLayout } from "blitz"
+import Head from "next/head"
+import { BlitzLayout } from "@blitzjs/next"
 import MainHeader from "./MainHeader"
 import { FaTwitter } from "react-icons/fa"
 

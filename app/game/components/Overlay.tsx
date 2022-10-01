@@ -25,7 +25,7 @@ class Portal extends React.Component<any, any> {
 }
 
 const Overlay: React.FC<
-  React.StyleHTMLAttributes<HTMLDivElement> & {
+  Omit<React.StyleHTMLAttributes<HTMLDivElement>, "children"> & {
     button?: React.ReactNode
     open?: boolean
     children: React.ReactNode | ((props: { close: () => void }) => React.ReactNode)

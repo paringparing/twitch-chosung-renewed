@@ -1,3 +1,4 @@
+import Router, { useRouter } from "next/router"
 import React from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 import {
@@ -10,7 +11,6 @@ import {
   SWords,
 } from "../utils/store"
 import { Button } from "../components/Button"
-import { Router, useRouter } from "blitz"
 import { Colors } from "../constants"
 
 const StreamerMenu: React.FC = () => {
