@@ -316,9 +316,10 @@ const WordItem: React.FC<{ index: number }> = ({ index }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          background: "rgba(255, 255, 255, 0.2)",
+          background: Colors.red,
           borderRadius: 20,
           cursor: "pointer",
+          color: "#fff",
         }}
         onClick={() => {
           onChange(value.filter((_, i) => i !== index))
@@ -423,12 +424,16 @@ const CategoryEditorContent: BlitzPage = () => {
                   paddingBottom: 12,
                 }}
               >
-                <div style={{ display: "flex" }}>
-                  <div style={{ fontSize: 64, fontWeight: 800 }}>{item.name}</div>
+                <div style={{ display: "flex", alignItems: "flex-start" }}>
+                  <div style={{ fontSize: 36, fontWeight: 800 }}>{item.name}</div>
                   <div style={{ flexGrow: 1 }} />
                   <Overlay
                     button={
-                      <Button color={Colors.red} disabled={submitting}>
+                      <Button
+                        style={{ padding: "0 24px", height: 48, borderRadius: 8 }}
+                        color={Colors.red}
+                        disabled={submitting}
+                      >
                         삭제
                       </Button>
                     }
@@ -547,7 +552,7 @@ const CategoryEditorContent: BlitzPage = () => {
                 </div>
                 <div>
                   <div style={{ display: "flex", alignItems: "flex-end" }}>
-                    <div style={{ fontSize: 48, fontWeight: 800, flexGrow: 1 }}>단어 설정</div>
+                    <div style={{ fontSize: 36, fontWeight: 800, flexGrow: 1 }}>단어 설정</div>
                     <div
                       style={{
                         width: 60,
@@ -555,9 +560,10 @@ const CategoryEditorContent: BlitzPage = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        background: "rgba(255, 255, 255, 0.2)",
+                        background: Colors.blue,
                         borderRadius: 20,
                         cursor: "pointer",
+                        color: "#fff",
                       }}
                       onClick={() => {
                         form.change("words", [...values.words, { word: "", hint: "" }])
