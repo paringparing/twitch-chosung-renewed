@@ -76,7 +76,7 @@ const Overlay: React.FC<
                   },
                 }}
                 style={{
-                  background: Colors.purple,
+                  background: "#6655ff",
                   borderRadius: 20,
                   padding: 40,
                   display: "flex",
@@ -88,6 +88,7 @@ const Overlay: React.FC<
                   transform: `translate(-50%, -50%) scale(${scale})`,
                   zIndex: 9999,
                   ...style,
+                  color: "#fff",
                 }}
               >
                 {typeof children === "function"

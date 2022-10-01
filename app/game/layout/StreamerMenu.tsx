@@ -33,30 +33,42 @@ const StreamerMenu: React.FC = () => {
             <>
               {" "}
               <div style={{ width: "100%", display: "flex" }}>
-                <div style={{ flexGrow: 1, fontSize: 40, fontWeight: 800 }}>{currentWord.word}</div>
-                <div style={{ fontSize: 30 }}>{currentWord.category}</div>
+                <div style={{ flexGrow: 1, fontSize: 32, fontWeight: 800 }}>{currentWord.word}</div>
+                <div style={{ fontSize: 24 }}>{currentWord.category}</div>
               </div>
-              {/*<div style={{ width: "100%", fontSize: 30 }}>{currentWord.hint}</div>*/}
+              <div style={{ width: "100%", fontSize: 18 }}>{currentWord.hint}</div>
             </>
           ) : (
             <div style={{ fontSize: 32, fontWeight: 800, width: "100%" }}>정답 보기 비활성화됨</div>
           )}
           <div style={{ flexGrow: 1 }} />
-          <div style={{ width: "100%" }}>
+          <div style={{ display: "flex", gap: 10, width: "100%" }}>
             <Button
-              style={{ width: "100%" }}
+              style={{
+                flexGrow: 1,
+                width: 0,
+                fontSize: 16,
+                height: "auto",
+                padding: 8,
+                borderRadius: 8,
+              }}
               color={Colors.red}
               onClick={async () => {
                 await Router.push("/game/result")
               }}
             >
-              게임 즉시 종료(결과 보기)
+              게임 즉시 종료
             </Button>
-          </div>
-          <div style={{ display: "flex", gap: 10, width: "100%" }}>
             {noAnswer ? (
               <Button
-                style={{ flexGrow: 1 }}
+                style={{
+                  flexGrow: 1,
+                  width: 0,
+                  fontSize: 16,
+                  height: 48,
+                  padding: 8,
+                  borderRadius: 8,
+                }}
                 onClick={async () => {
                   if (words!.length - 1 === idx) {
                     await Router.push("/game/result")
@@ -73,12 +85,29 @@ const StreamerMenu: React.FC = () => {
             ) : (
               <>
                 <Button
-                  style={{ flexGrow: 1, width: 0 }}
+                  style={{
+                    flexGrow: 1,
+                    width: 0,
+                    fontSize: 16,
+                    height: 48,
+                    padding: 8,
+                    borderRadius: 8,
+                  }}
                   onClick={() => setShowCategory((v) => !v)}
                 >
                   주제 {showCategory ? "숨기기" : "공개"}
                 </Button>
-                <Button style={{ flexGrow: 1, width: 0 }} onClick={() => setShowHint((v) => !v)}>
+                <Button
+                  style={{
+                    flexGrow: 1,
+                    width: 0,
+                    fontSize: 16,
+                    height: 48,
+                    padding: 8,
+                    borderRadius: 8,
+                  }}
+                  onClick={() => setShowHint((v) => !v)}
+                >
                   힌트 {showHint ? "숨기기" : "공개"}
                 </Button>
               </>
