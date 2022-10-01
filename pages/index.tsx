@@ -225,13 +225,6 @@ const CustomCategoryList: React.FC = () => {
             {x.name}
           </div>
           <div style={{ fontSize: 14 }}>{x.owner.name}</div>
-          {x.owner.avatar && (
-            <img
-              src={x.owner.avatar}
-              style={{ width: 36, height: 36, borderRadius: 18 }}
-              alt="avatar"
-            />
-          )}
         </div>
       ))}
     </Marquee>
