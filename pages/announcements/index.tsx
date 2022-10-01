@@ -48,14 +48,26 @@ const AnnouncementListContent: React.FC = () => {
         <Link key={i} href={"/announcements/[id]"} as={`/announcements/${x.id}`}>
           <a
             style={{
-              color: "#000",
-              background: "rgba(255, 255, 255,0.2)",
-              padding: 20,
-              borderRadius: 20,
-              display: "block",
+              color: "#fff",
+              background: "rgba(0, 0, 0 ,0.2)",
+              padding: 16,
+              borderRadius: 8,
+              display: "flex",
             }}
           >
-            <div style={{ fontSize: 24, fontWeight: 800 }}>{x.title}</div>
+            <div
+              style={{
+                fontSize: 24,
+                flexGrow: 1,
+                fontWeight: 800,
+                width: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {x.title}
+            </div>
             <div style={{ fontSize: 16 }}>{dayjs(x.createdAt).format("YYYY-MM-DD")}</div>
           </a>
         </Link>
