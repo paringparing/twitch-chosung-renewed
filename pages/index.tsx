@@ -5,11 +5,10 @@ import { Button } from "../app/game/components/Button"
 import YouTube from "react-youtube"
 import React from "react"
 import { FaChevronDown } from "react-icons/fa"
-
-/*
- * This file is just for a pleasant getting started page for your new app.
- * You can delete everything in here and start from scratch if you like.
- */
+import { useQuery } from "@blitzjs/rpc"
+import getRandomCustomCategories from "app/queries/getRandomCustomCategories"
+import { RevolvingDot } from "react-loader-spinner"
+import Marquee from "react-fast-marquee"
 
 const Home: BlitzPage = () => {
   const videoContainerRef = React.useRef<HTMLDivElement | null>(null)
@@ -125,6 +124,25 @@ const Home: BlitzPage = () => {
           <div style={{ fontSize: 18 }}>사용법을 모르시나요? 영상으로 알아보세요.</div>
         </div>
       </div>
+      <div style={{ marginBottom: 48 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginBottom: 24,
+            textAlign: "center",
+          }}
+        >
+          <div style={{ fontSize: 32, fontWeight: 800 }}>커스텀 주제</div>
+          <div style={{ fontSize: 18 }}>
+            기본 주제 뿐만 아니라 주제를 직접 만들어서 게임할 수 있어요!
+          </div>
+        </div>
+        <React.Suspense fallback={<RevolvingDot width={160} height={160} color="#fff" />}>
+          <CustomCategoryList />
+        </React.Suspense>
+      </div>
       <style jsx>{`
         @media screen and (max-width: 1023px) {
           .responsiveFlex {
@@ -168,6 +186,55 @@ const Home: BlitzPage = () => {
         }
       `}</style>
     </div>
+  )
+}
+
+const CustomCategoryList: React.FC = () => {
+  const [data] = useQuery(getRandomCustomCategories, null)
+
+  console.log(data)
+
+  return (
+    <Marquee pauseOnHover gradient={false}>
+      {data.map((x, i) => (
+        <div
+          key={i}
+          style={{
+            background: "rgba(0, 0, 0, 0.2)",
+            padding: 12,
+            borderRadius: 8,
+            color: "#fff",
+            width: 360,
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            marginRight: 12,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 22,
+              fontWeight: 900,
+              width: 0,
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              flexGrow: 1,
+            }}
+          >
+            {x.name}
+          </div>
+          <div style={{ fontSize: 14 }}>{x.owner.name}</div>
+          {x.owner.avatar && (
+            <img
+              src={x.owner.avatar}
+              style={{ width: 36, height: 36, borderRadius: 18 }}
+              alt="avatar"
+            />
+          )}
+        </div>
+      ))}
+    </Marquee>
   )
 }
 
