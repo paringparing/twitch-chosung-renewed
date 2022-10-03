@@ -95,3 +95,8 @@ export const SAutoSkip = atom<boolean>({
   key: "game:autoSkip",
   default: false,
 })
+
+export const SAutoSkipTime = atom<number>({
+  key: "game:autoSkipTime",
+  default: 5,
+})

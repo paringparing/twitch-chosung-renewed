@@ -7,6 +7,7 @@ import { MdAccessTime } from "react-icons/md"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
   SAutoSkip,
+  SAutoSkipTime,
   SCurrentWordIndex,
   SNoAnswer,
   SRankingData,
@@ -107,6 +108,90 @@ const WordCountSelector: React.FC = () => {
   )
 }
 
+const AutoSizeNumberInput: React.FC<{
+  value: number
+  min?: number
+  max?: number
+  onChange: (v: number) => void
+}> = ({ value, onChange, min, max }) => {
+  const [text, setText] = React.useState("")
+
+  return (
+    <>
+      <span className="container">
+        <span className="size-calibration">{text}</span>
+        <input
+          min={min}
+          max={max}
+          ref={(i) => {
+            setText(i?.value ?? "")
+          }}
+          type="number"
+          value={value}
+          onChange={(e) => {
+            const n = +e.target.value
+
+            if (isNaN(n) || n === Infinity) return
+
+            e.target.value = n as unknown as string
+
+            onChange(n)
+
+            setText(e.target.value)
+          }}
+          onClick={(e) => {
+            ;(e as unknown as { cancel: boolean }).cancel = true
+          }}
+        />
+      </span>
+      <style jsx>
+        {`
+          .container {
+            display: inline-block;
+            position: relative;
+            min-width: 1em;
+            width: min-content;
+            height: fit-content;
+          }
+          .size-calibration {
+            visibility: hidden;
+            font-weight: 900;
+
+            white-space: pre;
+          }
+          input {
+            padding: 0;
+            margin: 0;
+            left: 0;
+            width: 100%;
+            position: absolute;
+            color: ${Colors.blue};
+            font-weight: 900;
+            background: transparent;
+            border: none;
+            caret-color: #000;
+          }
+          input:focus {
+            outline: none;
+          }
+
+          /* Chrome, Safari, Edge, Opera */
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          /* Firefox */
+          input[type="number"] {
+            -moz-appearance: textfield;
+          }
+        `}
+      </style>
+    </>
+  )
+}
+
 const Game: BlitzPage = () => {
   const official = useRecoilValue(SSelectedOfficialWords)
   const custom = useRecoilValue(SSelectedCustomWords)
@@ -122,6 +207,7 @@ const Game: BlitzPage = () => {
   const [showPercent, setShowPercent] = useRecoilState(SShowPercent)
   const [showAnswerInMenu, setShowAnswerInMenu] = useRecoilState(SShowAnswerInMenu)
   const [autoSkip, setAutoSkip] = useRecoilState(SAutoSkip)
+  const [autoSkipTime, setAutoSkipTime] = useRecoilState(SAutoSkipTime)
   const [startGameMut] = useMutation(startGame)
 
   React.useEffect(() => {
@@ -210,7 +296,14 @@ const Game: BlitzPage = () => {
       <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
         <div className="setting-section">
           <div className="setting-section-title">스트리머 편의기능</div>
-          <label className="setting-checkbox">
+          <label
+            onClick={(e) => {
+              if ((e as unknown as { cancel: boolean }).cancel) {
+                e.preventDefault()
+              }
+            }}
+            className="setting-checkbox"
+          >
             <input
               type="checkbox"
               checked={autoSkip}
@@ -220,7 +313,10 @@ const Game: BlitzPage = () => {
               <FaCheck size={18} />
             </span>
 
-            <span>정답 후 5초 뒤 자동 스킵</span>
+            <span>
+              정답 후 <AutoSizeNumberInput value={autoSkipTime} onChange={setAutoSkipTime} />초 뒤
+              자동 스킵
+            </span>
           </label>
           <label className="setting-checkbox">
             <input

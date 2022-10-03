@@ -5,6 +5,7 @@ import React from "react"
 import { constSelector, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
   SAutoSkip,
+  SAutoSkipTime,
   SCurrentWord,
   SCurrentWordIndex,
   SDisablePadding,
@@ -106,6 +107,7 @@ const PlayContent: React.FC = () => {
   const t = useTmi()
   const [rankingData, setRankingData] = useRecoilState(SRankingData)
   const autoSkip = useRecoilValue(SAutoSkip)
+  const autoSkipTime = useRecoilValue(SAutoSkipTime)
 
   const currentWord = useRecoilValue(SCurrentWord)!
 
@@ -204,7 +206,7 @@ const PlayContent: React.FC = () => {
           setMatchedUser(null)
           setCurrentWordIndex(currentWordIndex + 1)
         }
-      }, 5000)
+      }, autoSkipTime * 1000)
       return () => {
         clearTimeout(timeout)
       }
