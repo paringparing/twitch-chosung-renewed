@@ -24,15 +24,15 @@ import { Button } from "../../app/game/components/Button"
 import { Colors } from "../../app/game/constants"
 import getWordCount from "../../app/game/queries/words/getWordCount"
 import Slider from "rc-slider"
-import { Checkbox } from "antd"
 import startGame from "app/game/mutations/startGame"
+import { FaCheck } from "react-icons/fa"
 
 const TimeInput: React.FC = () => {
   const [timeLimit, setTimeLimit] = useRecoilState(STimeLimit)
 
   return (
     <div className="container">
-      <MdAccessTime size={36} />
+      <MdAccessTime size={32} />
       <input
         value={timeLimit}
         onChange={(e) => setTimeLimit(Number(e.target.value))}
@@ -42,24 +42,24 @@ const TimeInput: React.FC = () => {
       <style jsx>{`
         .container {
           width: 400px;
-          height: 80px;
+          height: 48px;
           display: flex;
           align-items: center;
           gap: 10px;
           background: rgba(255, 255, 255, 0.2);
-          padding-left: 20px;
-          padding-right: 20px;
-          border-radius: 20px;
+          padding-left: 16px;
+          padding-right: 16px;
+          border-radius: 16px;
         }
         .end {
-          font-size: 24px;
+          font-size: 18px;
           font-weight: 800;
         }
         input {
           background: transparent;
           border: none;
           outline: none;
-          font-size: 24px;
+          font-size: 20px;
           font-weight: 800;
           flex-grow: 1;
           height: 100%;
@@ -141,80 +141,149 @@ const Game: BlitzPage = () => {
         gap: 10,
       }}
     >
+      <style jsx>
+        {`
+          .setting-section-title {
+            font-size: 24px;
+            font-weight: 800;
+          }
+          .setting-section {
+            display: flex;
+            gap: 16px;
+            flex-direction: column;
+            flex-shrink: 0;
+            width: 400px;
+            align-items: center;
+          }
+          label.setting-checkbox {
+            font-size: 24px;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+          }
+          label.setting-checkbox input {
+            display: none;
+          }
+          label.setting-checkbox input + span {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            transition: all ease 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: transparent;
+          }
+          label.setting-checkbox input:checked + span {
+            background: ${Colors.blue};
+            color: #fff;
+          }
+          label.setting-checkbox span + span {
+            margin-left: 12px;
+          }
+          /*
+          label.setting-checkbox input[type="checkbox"]::after {
+            content: "";
+            width: 28px;
+            height: 28px;
+            border: 4px solid ${Colors.blue};
+            border-radius: 8px;
+            position: absolute;
+            left: -10px;
+            transition: all ease 0.4s;
+            transform: translateX(25%);
+          }
+          label.setting-checkbox input[type="checkbox"]:checked::after {
+            background-color: ${Colors.blue};
+          }
+          label.setting-checkbox span {
+            padding-left: 32px;
+          }
+          */
+        `}
+      </style>
       <div style={{ fontSize: 64, fontWeight: 800 }}>게임 설정</div>
-      <label
-        style={{
-          display: "flex",
-          gap: 8,
-          width: 400,
-          alignItems: "center",
-          transform: "scale(2) translate(25%, 0)",
-          marginBottom: 5,
-        }}
-      >
-        <Checkbox checked={showPercent} onChange={(e) => setShowPercent(e.target.checked)} />
-        <span>채팅에 맞은 글자 개수 표시</span>
-      </label>
-      <label
-        style={{
-          display: "flex",
-          gap: 8,
-          width: 400,
-          alignItems: "center",
-          transform: "scale(2) translate(25%, 0)",
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-      >
-        <Checkbox checked={autoSkip} onChange={(e) => setAutoSkip(e.target.checked)} />
-        <span>정답 후 5초 뒤 자동 스킵</span>
-      </label>
-      <label
-        style={{
-          display: "flex",
-          gap: 8,
-          width: 400,
-          alignItems: "center",
-          transform: "scale(2) translate(25%, 0)",
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-      >
-        <Checkbox
-          checked={showAnswerInMenu}
-          onChange={(e) => setShowAnswerInMenu(e.target.checked)}
-        />
-        <span>스트리머 메뉴에 정답 표시</span>
-      </label>
-      <TimeInput />
+      <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
+        <div className="setting-section">
+          <div className="setting-section-title">스트리머 편의기능</div>
+          <label className="setting-checkbox">
+            <input
+              type="checkbox"
+              checked={autoSkip}
+              onChange={(e) => setAutoSkip(e.target.checked)}
+            />
+            <span>
+              <FaCheck size={18} />
+            </span>
+
+            <span>정답 후 5초 뒤 자동 스킵</span>
+          </label>
+          <label className="setting-checkbox">
+            <input
+              type="checkbox"
+              checked={showAnswerInMenu}
+              onChange={(e) => setShowAnswerInMenu(e.target.checked)}
+            />
+            <span>
+              <FaCheck size={18} />
+            </span>
+
+            <span>스트리머 메뉴에 정답 표시</span>
+          </label>
+        </div>
+        <div className="setting-section">
+          <div className="setting-section-title">게임 규칙</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div>
+              <label className="setting-checkbox">
+                <input
+                  type="checkbox"
+                  checked={showPercent}
+                  onChange={(e) => setShowPercent(e.target.checked)}
+                />
+                <span>
+                  <FaCheck size={18} />
+                </span>
+                <span>채팅에 맞은 글자 개수 표시</span>
+              </label>
+              <div style={{ display: "flex", flexDirection: "column", marginTop: 8 }}>
+                <div style={{ fontSize: 24, fontWeight: 600 }}>제한시간</div>
+                <TimeInput />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {available && (
         <React.Suspense fallback="Loading...">
           <WordCountSelector />
         </React.Suspense>
       )}
-      <Button
-        onClick={() => Router.push("/game/selectCategory")}
-        color={Colors.purple}
-        style={{ width: 400 }}
-      >
-        주제 선택
-      </Button>
-      <Button
-        disabled={!available}
-        style={{ width: 400 }}
-        onClick={async () => {
-          await startGameMut()
-          setCurrentWordIndex(0)
-          setNoAnswer(false)
-          setShowHint(false)
-          setShowCategory(false)
-          setWords(null)
-          setRankingData({})
-          await Router.push("/game/play")
-        }}
-      >
-        게임 시작
-      </Button>
+      <div style={{ display: "flex", gap: 16, justifyContent: "flex-end" }}>
+        <Button onClick={() => Router.push("/game/selectCategory")} color={Colors.purple}>
+          주제 선택
+        </Button>
+        <Button
+          disabled={!available}
+          onClick={async () => {
+            await startGameMut()
+            setCurrentWordIndex(0)
+            setNoAnswer(false)
+            setShowHint(false)
+            setShowCategory(false)
+            setWords(null)
+            setRankingData({})
+            await Router.push("/game/play")
+          }}
+        >
+          게임 시작
+        </Button>
+      </div>
     </div>
   )
 }
