@@ -90,6 +90,8 @@ export default resolver.pipe(
       yaml.stringify(transformItem(newItem), null, 2)
     )
 
+    if (difference.length === 1) return
+
     let str = ""
 
     for (const diff of difference) {
