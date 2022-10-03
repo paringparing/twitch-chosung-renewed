@@ -17,6 +17,11 @@ export const STimeLimit = atom<number>({
   default: 30,
 })
 
+export const SEnableTimeLimit = atom<boolean>({
+  key: "game:enableTimeLimit",
+  default: true,
+})
+
 export const SSelectedOfficialWords = atom<number[]>({
   key: "game:selectedOfficialWords",
   default: [],

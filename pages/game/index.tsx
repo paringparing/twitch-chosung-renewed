@@ -9,6 +9,7 @@ import {
   SAutoSkip,
   SAutoSkipTime,
   SCurrentWordIndex,
+  SEnableTimeLimit,
   SNoAnswer,
   SRankingData,
   SSelectedCustomWords,
@@ -27,59 +28,6 @@ import getWordCount from "../../app/game/queries/words/getWordCount"
 import Slider from "rc-slider"
 import startGame from "app/game/mutations/startGame"
 import { FaCheck } from "react-icons/fa"
-
-const TimeInput: React.FC = () => {
-  const [timeLimit, setTimeLimit] = useRecoilState(STimeLimit)
-
-  return (
-    <div className="container">
-      <MdAccessTime size={32} />
-      <input
-        value={timeLimit}
-        onChange={(e) => setTimeLimit(Number(e.target.value))}
-        type="number"
-      />
-      <div className="end">초</div>
-      <style jsx>{`
-        .container {
-          height: 48px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          background: rgba(255, 255, 255, 0.2);
-          padding-left: 16px;
-          padding-right: 16px;
-          border-radius: 16px;
-        }
-        .end {
-          font-size: 18px;
-          font-weight: 800;
-        }
-        input {
-          background: transparent;
-          border: none;
-          outline: none;
-          font-size: 20px;
-          font-weight: 800;
-          flex-grow: 1;
-          height: 100%;
-          width: 0;
-        }
-        /* Chrome, Safari, Edge, Opera */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-
-        /* Firefox */
-        input[type="number"] {
-          -moz-appearance: textfield;
-        }
-      `}</style>
-    </div>
-  )
-}
 
 const WordCountSelector: React.FC = () => {
   const official = useRecoilValue(SSelectedOfficialWords)
@@ -198,6 +146,8 @@ const Game: BlitzPage = () => {
 
   const available = React.useMemo(() => !!(official.length + custom.length), [official, custom])
 
+  const [timeLimit, setTimeLimit] = useRecoilState(STimeLimit)
+  const [enableTimeLimit, setEnableTimeLimit] = useRecoilState(SEnableTimeLimit)
   const setCurrentWordIndex = useSetRecoilState(SCurrentWordIndex)
   const setNoAnswer = useSetRecoilState(SNoAnswer)
   const setShowHint = useSetRecoilState(SShowHint)
@@ -346,10 +296,28 @@ const Game: BlitzPage = () => {
                 </span>
                 <span>채팅에 맞은 글자 개수 표시</span>
               </label>
-              <div style={{ display: "flex", flexDirection: "column", marginTop: 8 }}>
-                <div style={{ fontSize: 24, fontWeight: 600 }}>제한시간</div>
-                <TimeInput />
-              </div>
+              <label
+                onClick={(e) => {
+                  if ((e as unknown as { cancel: boolean }).cancel) {
+                    e.preventDefault()
+                  }
+                }}
+                className="setting-checkbox"
+              >
+                <input
+                  type="checkbox"
+                  checked={enableTimeLimit}
+                  onChange={(e) => setEnableTimeLimit(e.target.checked)}
+                />
+                <span>
+                  <FaCheck size={18} />
+                </span>
+
+                <span>
+                  <AutoSizeNumberInput value={timeLimit} onChange={setTimeLimit} />초 뒤 정답
+                  없음으로 처리
+                </span>
+              </label>
             </div>
           </div>
         </div>
