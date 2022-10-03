@@ -1,4 +1,4 @@
-import { useQuery } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import Router from "next/router"
 import { BlitzPage } from "@blitzjs/next"
 import React from "react"
@@ -25,6 +25,7 @@ import { Colors } from "../../app/game/constants"
 import getWordCount from "../../app/game/queries/words/getWordCount"
 import Slider from "rc-slider"
 import { Checkbox } from "antd"
+import startGame from "app/game/mutations/startGame"
 
 const TimeInput: React.FC = () => {
   const [timeLimit, setTimeLimit] = useRecoilState(STimeLimit)
@@ -122,6 +123,7 @@ const Game: BlitzPage = () => {
   const [showPercent, setShowPercent] = useRecoilState(SShowPercent)
   const [showAnswerInMenu, setShowAnswerInMenu] = useRecoilState(SShowAnswerInMenu)
   const [autoSkip, setAutoSkip] = useRecoilState(SAutoSkip)
+  const [startGameMut] = useMutation(startGame)
 
   React.useEffect(() => {
     setRankingData(null)
@@ -201,6 +203,7 @@ const Game: BlitzPage = () => {
         disabled={!available}
         style={{ width: 400 }}
         onClick={async () => {
+          await startGameMut()
           setCurrentWordIndex(0)
           setNoAnswer(false)
           setShowHint(false)
