@@ -74,7 +74,7 @@ const Home: BlitzPage = () => {
               maxHeight: 720 * 0.75,
               borderRadius: 20,
             }}
-            src={"/assets/img/landing/play.png"}
+            src={"/assets/img/landing/playNew.png"}
             className="img"
             alt=""
           />
