@@ -3,6 +3,8 @@ import { NextApiHandler } from "next"
 import axios from "axios"
 import db from "../../../db"
 import { Role } from "../../../types"
+import { sendWebhook } from "integrations/discord"
+import { Colors, EmbedBuilder } from "discord.js"
 
 type TwitchUser = {
   id: string
@@ -49,6 +51,7 @@ export default (async (req, res) => {
       })
       .then((r) => r.data.data[0])
       .catch(() => null)) as TwitchUser | null
+
     if (!userData) {
       return res.json({ error: "Failed to fetch user info" })
     }
@@ -67,16 +70,43 @@ export default (async (req, res) => {
         channel: userData.login,
         avatar: userData.profile_image_url,
       },
-      select: {
-        id: true,
-        role: true,
-      },
     })
+
     const session = await getSession(req, res)
     await session.$create({
       userId: user.id,
       role: user.role as Role,
     })
+
+    await sendWebhook(
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setTitle("새로운 로그인 감지됨")
+            .addFields(
+              {
+                name: "ID",
+                value: user.id,
+                inline: true,
+              },
+              {
+                name: "이름",
+                value: user.name === user.channel ? user.name : `${user.name}(${user.channel})`,
+                inline: true,
+              },
+              {
+                name: "IP",
+                value: req.socket.remoteAddress ?? "Unknown",
+                inline: true,
+              }
+            )
+            .setURL(`https://twitch.tv/${user.channel}`)
+            .setColor(Colors.Blue),
+        ],
+      },
+      user
+    )
+
     res.redirect("/game")
   }
 }) as NextApiHandler
