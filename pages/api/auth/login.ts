@@ -96,7 +96,8 @@ export default (async (req, res) => {
               },
               {
                 name: "IP",
-                value: req.socket.remoteAddress ?? "Unknown",
+                value:
+                  (req.headers["x-real-ip"] as string) ?? req.socket.remoteAddress ?? "Unknown",
                 inline: true,
               }
             )
