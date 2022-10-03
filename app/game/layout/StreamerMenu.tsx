@@ -60,24 +60,26 @@ const StreamerMenu: React.FC = () => {
               >
                 게임 즉시 종료
               </Button>
-              <Button
-                style={{
-                  flexGrow: 1,
-                  width: 0,
-                  fontSize: 16,
-                  height: "auto",
-                  padding: 8,
-                  borderRadius: 8,
-                }}
-                color={Colors.red}
-                onClick={async () => {
-                  setShowCategory(true)
-                  setShowHint(true)
-                  setNoAnswer(true)
-                }}
-              >
-                현재 라운드 종료
-              </Button>
+              {!noAnswer && (
+                <Button
+                  style={{
+                    flexGrow: 1,
+                    width: 0,
+                    fontSize: 16,
+                    height: "auto",
+                    padding: 8,
+                    borderRadius: 8,
+                  }}
+                  color={Colors.red}
+                  onClick={async () => {
+                    setShowCategory(true)
+                    setShowHint(true)
+                    setNoAnswer(true)
+                  }}
+                >
+                  현재 라운드 종료
+                </Button>
+              )}
             </div>
           )}
           <div style={{ display: "flex", gap: 10, width: "100%" }}>
