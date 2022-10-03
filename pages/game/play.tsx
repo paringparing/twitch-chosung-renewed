@@ -9,6 +9,7 @@ import {
   SCurrentWord,
   SCurrentWordIndex,
   SDisablePadding,
+  SEnableTimeLimit,
   SNoAnswer,
   SRankingData,
   SSelectedCustomWords,
@@ -89,6 +90,7 @@ const useRandomWords = () => {
 const PlayContent: React.FC = () => {
   useRandomWords()
   const maxTime = useRecoilValue(STimeLimit)
+  const enableMaxTime = useRecoilValue(SEnableTimeLimit)
   const [words] = useRecoilState(SWords)
   const [currentWordIndex, setCurrentWordIndex] = useRecoilState(SCurrentWordIndex)
   const [endsAt, setEndsAt] = React.useState(() => Date.now() + maxTime * 1000)
@@ -173,28 +175,30 @@ const PlayContent: React.FC = () => {
   }, [setDisablePadding])
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      if (matchedUser || noAnswer) {
+    if (enableMaxTime) {
+      const interval = setInterval(() => {
+        if (matchedUser || noAnswer) {
+          clearInterval(interval)
+          return
+        }
+        const remaining = endsAt - Date.now()
+        if (remaining < 0) {
+          clearInterval(interval)
+          setShowCategory(true)
+          setShowHint(true)
+          setNoAnswer(true)
+          setRemainingTime(0)
+          return
+        }
+        const max = maxTime * 1000
+        setRemainingTime(remaining / max)
+      }, 100)
+      return () => {
         clearInterval(interval)
-        return
       }
-      const remaining = endsAt - Date.now()
-      if (remaining < 0) {
-        clearInterval(interval)
-        setShowCategory(true)
-        setShowHint(true)
-        setNoAnswer(true)
-        setRemainingTime(0)
-        return
-      }
-      const max = maxTime * 1000
-      setRemainingTime(remaining / max)
-    }, 100)
-    return () => {
-      clearInterval(interval)
     }
     // eslint-disable-next-line
-  }, [endsAt, maxTime, setRemainingTime, matchedUser, noAnswer])
+  }, [endsAt, maxTime, setRemainingTime, matchedUser, noAnswer, enableMaxTime])
 
   React.useEffect(() => {
     if ((matchedUser || noAnswer) && autoSkip) {
@@ -249,14 +253,16 @@ const PlayContent: React.FC = () => {
           {words!.length - 1 === currentWordIndex ? "결과 보기" : "다음"}
         </Button>
       </Overlay>
-      <div
-        style={{
-          background: Colors.red,
-          height: 30,
-          width: `${remainingTime * 100}%`,
-          transition: "all linear 0.1s",
-        }}
-      />
+      {enableMaxTime && (
+        <div
+          style={{
+            background: Colors.red,
+            height: 30,
+            width: `${remainingTime * 100}%`,
+            transition: "all linear 0.1s",
+          }}
+        />
+      )}
       <div
         style={{
           width: "100%",
