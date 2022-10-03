@@ -5,6 +5,7 @@ import { diffChars } from "diff"
 import chalk from "chalk"
 import { sendWebhook } from "integrations/discord"
 import { codeBlock, Colors, EmbedBuilder } from "discord.js"
+import * as yaml from "yaml"
 
 const transformItem = (item: CustomCategory & { words: CustomWord[] }) => {
   return {
@@ -85,8 +86,8 @@ export default resolver.pipe(
     })
 
     const difference = diffChars(
-      JSON.stringify(transformItem(item), null, 2),
-      JSON.stringify(transformItem(newItem), null, 2)
+      yaml.stringify(transformItem(item), null, 2),
+      yaml.stringify(transformItem(newItem), null, 2)
     )
 
     let str = ""
