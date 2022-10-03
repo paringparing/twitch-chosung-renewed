@@ -4,8 +4,11 @@ import { BlitzPage } from "@blitzjs/next"
 import React from "react"
 import { constSelector, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
+  gameUserStateStore,
   SAutoSkip,
   SAutoSkipTime,
+  SContinuousBlock,
+  SContinuousBlockCount,
   SCurrentWord,
   SCurrentWordIndex,
   SDisablePadding,
@@ -110,6 +113,8 @@ const PlayContent: React.FC = () => {
   const [rankingData, setRankingData] = useRecoilState(SRankingData)
   const autoSkip = useRecoilValue(SAutoSkip)
   const autoSkipTime = useRecoilValue(SAutoSkipTime)
+  const enableContinuousBlock = useRecoilValue(SContinuousBlock)
+  const continuousBlockCount = useRecoilValue(SContinuousBlockCount)
 
   const currentWord = useRecoilValue(SCurrentWord)!
 
@@ -129,7 +134,21 @@ const PlayContent: React.FC = () => {
 
     const listener = (channel: string, us: ChatUserstate, message: string) => {
       if (noAnswer || matchedUser) return
+      if (!us["user-id"]) return
       if (us["user-id"] === currentWord.author) return
+
+      if (enableContinuousBlock) {
+        const lastIndex = gameUserStateStore.get(us["user-id"])
+
+        if (typeof lastIndex === "number") {
+          const diff = currentWordIndex - lastIndex
+
+          console.log(diff)
+
+          if (diff <= continuousBlockCount) return
+        }
+      }
+
       if (message === currentWord.word) {
         correctSound.play()
         const u = us["display-name"] ?? us.username!
@@ -137,6 +156,7 @@ const PlayContent: React.FC = () => {
         setMatchedWord(currentWord)
         const score = Math.floor(10000 * ((endsAt - Date.now()) / (maxTime * 1000)))
         setScore(score)
+        gameUserStateStore.set(us["user-id"], currentWordIndex)
         const d = { ...rankingData } ?? {}
         if (d[u]) {
           d[u] = {
@@ -159,7 +179,7 @@ const PlayContent: React.FC = () => {
       tmi.removeListener("chat", listener)
     }
     // eslint-disable-next-line
-  }, [t, currentWord.word, noAnswer, setMatchedUser, matchedUser, endsAt])
+  }, [t, currentWord.word, noAnswer, setMatchedUser, matchedUser, endsAt, currentWordIndex])
 
   React.useEffect(() => {
     setEndsAt(Date.now() + maxTime * 1000)

@@ -6,8 +6,11 @@ import GameLayout from "../../app/game/layout"
 import { MdAccessTime } from "react-icons/md"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
+  gameUserStateStore,
   SAutoSkip,
   SAutoSkipTime,
+  SContinuousBlock,
+  SContinuousBlockCount,
   SCurrentWordIndex,
   SEnableTimeLimit,
   SNoAnswer,
@@ -81,6 +84,11 @@ const AutoSizeNumberInput: React.FC<{
 
             if (isNaN(n) || n === Infinity) return
 
+            if ((min && n < min) || (max && n > max)) {
+              e.preventDefault()
+              return
+            }
+
             e.target.value = n as unknown as string
 
             onChange(n)
@@ -148,6 +156,9 @@ const Game: BlitzPage = () => {
 
   const [timeLimit, setTimeLimit] = useRecoilState(STimeLimit)
   const [enableTimeLimit, setEnableTimeLimit] = useRecoilState(SEnableTimeLimit)
+  const [blockContinuous, setBlockContinuous] = useRecoilState(SContinuousBlock)
+  const [blockCountinuousCount, setBlockContinuousCount] = useRecoilState(SContinuousBlockCount)
+
   const setCurrentWordIndex = useSetRecoilState(SCurrentWordIndex)
   const setNoAnswer = useSetRecoilState(SNoAnswer)
   const setShowHint = useSetRecoilState(SShowHint)
@@ -264,7 +275,8 @@ const Game: BlitzPage = () => {
             </span>
 
             <span>
-              정답 후 <AutoSizeNumberInput value={autoSkipTime} onChange={setAutoSkipTime} />초 뒤
+              정답 후{" "}
+              <AutoSizeNumberInput min={1} value={autoSkipTime} onChange={setAutoSkipTime} />초 뒤
               자동 스킵
             </span>
           </label>
@@ -318,6 +330,33 @@ const Game: BlitzPage = () => {
                   없음으로 처리
                 </span>
               </label>
+              <label
+                onClick={(e) => {
+                  if ((e as unknown as { cancel: boolean }).cancel) {
+                    e.preventDefault()
+                  }
+                }}
+                className="setting-checkbox"
+              >
+                <input
+                  type="checkbox"
+                  checked={blockContinuous}
+                  onChange={(e) => setBlockContinuous(e.target.checked)}
+                />
+                <span>
+                  <FaCheck size={18} />
+                </span>
+
+                <span>
+                  정답 후{" "}
+                  <AutoSizeNumberInput
+                    min={1}
+                    value={blockCountinuousCount}
+                    onChange={setBlockContinuousCount}
+                  />
+                  라운드 동안 정답 금지
+                </span>
+              </label>
             </div>
           </div>
         </div>
@@ -351,6 +390,7 @@ const Game: BlitzPage = () => {
             setShowCategory(false)
             setWords(null)
             setRankingData({})
+            gameUserStateStore.clear()
             await Router.push("/game/play")
           }}
         >

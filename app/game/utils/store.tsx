@@ -105,3 +105,15 @@ export const SAutoSkipTime = atom<number>({
   key: "game:autoSkipTime",
   default: 5,
 })
+
+export const SContinuousBlock = atom<boolean>({
+  key: "game:continuousBlock",
+  default: false,
+})
+
+export const SContinuousBlockCount = atom<number>({
+  key: "game:continuousBlockCount",
+  default: 3,
+})
+
+export const gameUserStateStore = new Map<string, number>()
