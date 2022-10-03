@@ -42,30 +42,52 @@ const StreamerMenu: React.FC = () => {
             <div style={{ fontSize: 32, fontWeight: 800, width: "100%" }}>정답 보기 비활성화됨</div>
           )}
           <div style={{ flexGrow: 1 }} />
+          {(words!.length - 1 !== idx || !noAnswer) && (
+            <div style={{ display: "flex", gap: 10, width: "100%" }}>
+              <Button
+                style={{
+                  flexGrow: 1,
+                  width: 0,
+                  fontSize: 16,
+                  height: 32,
+                  padding: 8,
+                  borderRadius: 8,
+                }}
+                color={Colors.red}
+                onClick={async () => {
+                  await Router.push("/game/result")
+                }}
+              >
+                게임 즉시 종료
+              </Button>
+              <Button
+                style={{
+                  flexGrow: 1,
+                  width: 0,
+                  fontSize: 16,
+                  height: "auto",
+                  padding: 8,
+                  borderRadius: 8,
+                }}
+                color={Colors.red}
+                onClick={async () => {
+                  setShowCategory(true)
+                  setShowHint(true)
+                  setNoAnswer(true)
+                }}
+              >
+                현재 라운드 종료
+              </Button>
+            </div>
+          )}
           <div style={{ display: "flex", gap: 10, width: "100%" }}>
-            <Button
-              style={{
-                flexGrow: 1,
-                width: 0,
-                fontSize: 16,
-                height: "auto",
-                padding: 8,
-                borderRadius: 8,
-              }}
-              color={Colors.red}
-              onClick={async () => {
-                await Router.push("/game/result")
-              }}
-            >
-              게임 즉시 종료
-            </Button>
             {noAnswer ? (
               <Button
                 style={{
                   flexGrow: 1,
                   width: 0,
                   fontSize: 16,
-                  height: 48,
+                  height: 32,
                   padding: 8,
                   borderRadius: 8,
                 }}
@@ -89,7 +111,7 @@ const StreamerMenu: React.FC = () => {
                     flexGrow: 1,
                     width: 0,
                     fontSize: 16,
-                    height: 48,
+                    height: 32,
                     padding: 8,
                     borderRadius: 8,
                   }}
@@ -102,7 +124,7 @@ const StreamerMenu: React.FC = () => {
                     flexGrow: 1,
                     width: 0,
                     fontSize: 16,
-                    height: 48,
+                    height: 32,
                     padding: 8,
                     borderRadius: 8,
                   }}
