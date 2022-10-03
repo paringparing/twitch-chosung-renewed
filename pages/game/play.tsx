@@ -73,7 +73,12 @@ const useRandomWords = () => {
       }
       const words = await getWordList({ official, custom })
 
-      setWords(_.sampleSize(words, count))
+      setWords(
+        _.sampleSize(
+          words.map((x) => ({ ...x, word: x.word.trim() })),
+          count
+        )
+      )
     })()
   }
 
