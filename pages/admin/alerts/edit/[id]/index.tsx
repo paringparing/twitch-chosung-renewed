@@ -36,7 +36,7 @@ const EditAlert: BlitzPage<Props> = ({ alert }) => {
           <Input />
         </Form.Item>
         <Form.Item name="content" label="내용" rules={[{ required: true }]}>
-          <Input.TextArea />
+          <Input.TextArea rows={20} />
         </Form.Item>
         <Form.Item>
           <div style={{ display: "flex", gap: 12 }}>

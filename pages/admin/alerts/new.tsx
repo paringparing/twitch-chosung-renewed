@@ -34,7 +34,7 @@ const New: BlitzPage = () => {
           help="마크다운을 지원합니다"
           rules={[{ required: true }]}
         >
-          <Input.TextArea />
+          <Input.TextArea rows={20} />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
