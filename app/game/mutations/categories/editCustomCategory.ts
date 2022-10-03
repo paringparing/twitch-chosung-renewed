@@ -41,7 +41,6 @@ export default resolver.pipe(
       },
     })
     if (!item) return "Item not found"
-    console.log(i, item)
     await db.customCategory.update({
       where: {
         id: item.id,

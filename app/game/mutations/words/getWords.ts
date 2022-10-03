@@ -30,6 +30,7 @@ export default resolver.pipe(
       word: x.word,
       hint: x.hint,
       category: x.category.name,
+      author: null,
     }))
     const custom = (
       await db.customWord.findMany({
@@ -63,6 +64,7 @@ export default resolver.pipe(
           category: {
             select: {
               name: true,
+              ownerId: true,
             },
           },
         },
@@ -71,6 +73,7 @@ export default resolver.pipe(
       word: x.word,
       hint: x.hint,
       category: x.category.name,
+      author: x.category.ownerId,
     }))
     return [...official, ...custom]
   }

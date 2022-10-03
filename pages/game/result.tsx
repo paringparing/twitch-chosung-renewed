@@ -29,8 +29,6 @@ const Result: BlitzPage = () => {
     return <div />
   }
 
-  console.log(data)
-
   return (
     <div style={{ width: "100%", display: "flex", height: "100%", flexDirection: "column" }}>
       <div style={{ marginBottom: 24 }}>

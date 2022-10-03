@@ -77,7 +77,6 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
-    console.log(error)
     return <div>로그인이 필요합니다</div>
   } else if (error instanceof AuthorizationError) {
     return (

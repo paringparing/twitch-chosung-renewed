@@ -17,7 +17,6 @@ export default resolver.pipe(async () => {
       },
     }
   )
-  console.log(data)
   cache.set("data", data.data)
 
   return data.data

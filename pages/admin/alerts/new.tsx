@@ -20,7 +20,6 @@ const New: BlitzPage = () => {
           await create(values)
             .then((id) => {
               message.success("공지 등록 성공")
-              console.log(id)
               return Router.push(`/admin/alerts/edit/${id}`)
             })
             .catch(() => message.error("공지 등록 실패"))

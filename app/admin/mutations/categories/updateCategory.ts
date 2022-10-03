@@ -48,14 +48,12 @@ export default resolver.pipe(resolver.authorize("ADMIN"), resolver.zod(schema), 
       },
     },
   })
-  console.log(
-    await db.officialWord.deleteMany({
-      where: {
-        categoryId: item.id,
-        word: {
-          notIn: i.words.map((x) => x.word),
-        },
+  await db.officialWord.deleteMany({
+    where: {
+      categoryId: item.id,
+      word: {
+        notIn: i.words.map((x) => x.word),
       },
-    })
-  )
+    },
+  })
 })

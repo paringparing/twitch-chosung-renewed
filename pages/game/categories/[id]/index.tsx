@@ -391,14 +391,12 @@ const CategoryEditorContent: BlitzPage = () => {
         <Form
           schema={editCustomCategory}
           onSubmit={async (values) => {
-            console.log(values)
             const res = await editCategory({ ...values, id: item.id })
             if (res) {
               message.error(res)
               return
             }
             await refetch()
-            console.log(res)
           }}
           initialValues={item}
           style={{

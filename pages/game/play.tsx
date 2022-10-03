@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@blitzjs/rpc"
 import Router from "next/router"
 import { BlitzPage } from "@blitzjs/next"
 import React from "react"
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
+import { constSelector, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
   SAutoSkip,
   SCurrentWord,
@@ -75,7 +75,7 @@ const useRandomWords = () => {
 
       setWords(
         _.sampleSize(
-          words.map((x) => ({ ...x, word: x.word.trim() })),
+          words.map((x) => ({ ...x, word: x.word.trim(), author: x.author })),
           count
         )
       )
@@ -125,7 +125,7 @@ const PlayContent: React.FC = () => {
 
     const listener = (channel: string, us: ChatUserstate, message: string) => {
       if (noAnswer || matchedUser) return
-      console.log(message, currentWord.word)
+      if (us["user-id"] === currentWord.author) return
       if (message === currentWord.word) {
         correctSound.play()
         const u = us["display-name"] ?? us.username!

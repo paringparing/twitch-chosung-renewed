@@ -41,7 +41,6 @@ const TimeInput: React.FC = () => {
       <div className="end">초</div>
       <style jsx>{`
         .container {
-          width: 400px;
           height: 48px;
           display: flex;
           align-items: center;

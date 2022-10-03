@@ -32,7 +32,9 @@ export const SWordCount = atom<number>({
   default: 1,
 })
 
-export const SWords = atom<null | { word: string; hint: string; category: string }[]>({
+export const SWords = atom<
+  null | { word: string; hint: string; category: string; author: string | null }[]
+>({
   key: "game:words",
   default: null,
 })
@@ -47,7 +49,12 @@ export const SCurrentWordIndex = atom<number>({
   default: 0,
 })
 
-export const SCurrentWord = selector<{ word: string; hint: string; category: string } | null>({
+export const SCurrentWord = selector<{
+  word: string
+  hint: string
+  category: string
+  author: string | null
+} | null>({
   key: "game:currentWord",
   get: async ({ get }) => {
     return get(SWords)?.[get(SCurrentWordIndex)] ?? null
