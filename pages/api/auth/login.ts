@@ -3,7 +3,7 @@ import { NextApiHandler } from "next"
 import axios from "axios"
 import db from "../../../db"
 import { Role } from "../../../types"
-import { sendWebhook } from "integrations/discord"
+import { getUsername, sendWebhook } from "integrations/discord"
 import { Colors, EmbedBuilder } from "discord.js"
 
 type TwitchUser = {
@@ -91,7 +91,7 @@ export default (async (req, res) => {
               },
               {
                 name: "이름",
-                value: user.name === user.channel ? user.name : `${user.name}(${user.channel})`,
+                value: getUsername(user),
                 inline: true,
               },
               {

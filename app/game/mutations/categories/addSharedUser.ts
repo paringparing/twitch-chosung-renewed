@@ -1,11 +1,21 @@
 import { resolver } from "@blitzjs/rpc"
 import addSharedUser from "../../validation/addSharedUser"
 import db from "../../../../db"
+import { getUsername, sendWebhook } from "integrations/discord"
+import { Colors, EmbedBuilder } from "discord.js"
 
 export default resolver.pipe(
   resolver.authorize(["ADMIN", "USER"]),
   resolver.zod(addSharedUser),
   async (i, { session }) => {
+    const currentUser = await db.user.findFirst({
+      where: {
+        id: session.userId,
+      },
+    })
+
+    if (!currentUser) return "User not found"
+
     const item = await db.customCategory.findFirst({
       where: {
         id: i.id,
@@ -38,6 +48,30 @@ export default resolver.pipe(
         },
       },
     })
+
+    await sendWebhook(
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setColor(Colors.Blue)
+            .setTitle("주제 공유됨")
+            .addFields(
+              {
+                name: "주제",
+                value: `${item.name}`,
+                inline: true,
+              },
+              {
+                name: "공유된 유저",
+                value: `[${getUsername(user)}](https://twitch.tv/${user.channel})`,
+                inline: true,
+              }
+            ),
+        ],
+      },
+      currentUser
+    )
+
     return null
   }
 )
