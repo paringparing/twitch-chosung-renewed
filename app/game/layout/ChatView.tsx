@@ -19,7 +19,11 @@ const ChatView: React.FC = () => {
     const onChat = (channel: string, us: ChatUserstate, message: string) => {
       let c
 
-      if (message.length === currentWord?.word.length && showPercent) {
+      if (
+        message.length === currentWord?.word.length &&
+        showPercent &&
+        us["user-id"] !== currentWord?.author
+      ) {
         c = `${message.split("").filter((x, i) => currentWord.word[i] === x).length}/${
           message.length
         }`
@@ -46,7 +50,7 @@ const ChatView: React.FC = () => {
     return () => {
       tmi.removeListener("chat", onChat)
     }
-  }, [setChatData, t, showPercent, currentWord?.word])
+  }, [setChatData, t, showPercent, currentWord])
 
   React.useEffect(() => {
     const c = container.current
