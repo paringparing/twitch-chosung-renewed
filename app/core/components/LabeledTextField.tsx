@@ -2,6 +2,7 @@ import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
 import { Oval } from "react-loader-spinner"
 import clsx from "clsx"
+import { Colors } from "app/game/constants"
 
 export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */
@@ -43,7 +44,10 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
         </label>
 
         {touched && normalizedError && (
-          <div role="alert" style={{ color: "red", fontSize: 24, paddingLeft: 24, paddingTop: 6 }}>
+          <div
+            role="alert"
+            style={{ color: Colors.red, fontSize: 16, paddingLeft: 24, paddingTop: 6 }}
+          >
             {normalizedError}
           </div>
         )}
