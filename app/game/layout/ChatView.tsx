@@ -61,12 +61,12 @@ const ChatView: React.FC = () => {
 
   return (
     <div className="container" ref={(i) => (container.current = i)}>
-      <div>#{user.channel}</div>
+      <div style={{ fontWeight: 900 }}>#{user.channel}</div>
       {chatData.map((x, i) => (
         <div key={i}>
           {x.percent && <>{x.percent}&nbsp;&nbsp;</>}
-          {x.user}&nbsp;&nbsp;
-          {x.chat}
+          <span className="chat-username">{x.user}</span>&nbsp;&nbsp;
+          <span>{x.chat}</span>
         </div>
       ))}
       <style jsx>{`
@@ -76,9 +76,12 @@ const ChatView: React.FC = () => {
           border-radius: 20px;
           padding: 30px;
           flex-grow: 1;
-          font-size: 30px;
+          font-size: 24px;
           height: 0;
           overflow: hidden;
+        }
+        .chat-username {
+          font-weight: 600;
         }
       `}</style>
     </div>
