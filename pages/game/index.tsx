@@ -141,8 +141,8 @@ const AutoSizeNumberInput: React.FC<{
 }
 
 const Game: BlitzPage = () => {
-  const official = useRecoilValue(SSelectedOfficialWords)
-  const custom = useRecoilValue(SSelectedCustomWords)
+  const [official, setOfficial] = useRecoilState(SSelectedOfficialWords)
+  const [custom, setCustom] = useRecoilState(SSelectedCustomWords)
 
   const available = React.useMemo(() => !!(official.length + custom.length), [official, custom])
 
@@ -328,6 +328,16 @@ const Game: BlitzPage = () => {
         </React.Suspense>
       )}
       <div style={{ display: "flex", gap: 16, justifyContent: "flex-end" }}>
+        <Button
+          onClick={() => {
+            setOfficial([])
+            setCustom([])
+          }}
+          color={Colors.purple}
+          disabled={!(official.length + custom.length)}
+        >
+          선택된 주제({official.length + custom.length}개) 초기화
+        </Button>
         <Button onClick={() => Router.push("/game/selectCategory")} color={Colors.purple}>
           주제 선택
         </Button>
