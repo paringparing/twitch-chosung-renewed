@@ -29,7 +29,6 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
         <link
           rel="stylesheet"
           as="style"
-          crossOrigin="anonymous"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/variable/pretendardvariable.css"
         />
         <script
@@ -55,7 +54,9 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
           }
           * {
             box-sizing: border-box;
-            font-family: Pretendard, sans-serif;
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+              "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+              "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
           }
 
           .dropdownContainer li {
