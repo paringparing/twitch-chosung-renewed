@@ -1,11 +1,34 @@
 import { resolver } from "@blitzjs/rpc"
 import editCustomCategory from "../../validation/editCustomCategory"
-import db from "../../../../db"
+import db, { CustomCategory, CustomWord } from "../../../../db"
+import { diffChars } from "diff"
+import chalk from "chalk"
+import { sendWebhook } from "integrations/discord"
+import { codeBlock, Colors, EmbedBuilder } from "discord.js"
+
+const transformItem = (item: CustomCategory & { words: CustomWord[] }) => {
+  return {
+    id: item.id,
+    name: item.name,
+    description: item.description,
+    difficulty: item.difficulty,
+    visibility: item.visibility,
+    words: item.words.length,
+  }
+}
 
 export default resolver.pipe(
   resolver.authorize(["ADMIN", "USER"]),
   resolver.zod(editCustomCategory),
   async (i, { session }) => {
+    const currentUser = await db.user.findFirst({
+      where: {
+        id: session.userId,
+      },
+    })
+
+    if (!currentUser) return "User not found"
+
     const item = await db.customCategory.findFirst({
       where: {
         id: i.id,
@@ -13,6 +36,7 @@ export default resolver.pipe(
       },
       include: {
         sharedUsers: true,
+        words: true,
       },
     })
     if (!item) return "Item not found"
@@ -46,6 +70,7 @@ export default resolver.pipe(
         },
       },
     })
+
     await db.customWord.deleteMany({
       where: {
         categoryId: item.id,
@@ -54,5 +79,37 @@ export default resolver.pipe(
         },
       },
     })
+    const newItem = await db.customCategory.findFirstOrThrow({
+      where: { id: item.id },
+      include: { words: true },
+    })
+
+    const difference = diffChars(
+      JSON.stringify(transformItem(item), null, 2),
+      JSON.stringify(transformItem(newItem), null, 2)
+    )
+
+    let str = ""
+
+    for (const diff of difference) {
+      const res = diff.added
+        ? chalk.green(diff.value)
+        : diff.removed
+        ? chalk.red(diff.value)
+        : diff.value
+      str += res
+    }
+
+    await sendWebhook(
+      {
+        embeds: [
+          new EmbedBuilder()
+            .setTitle("주제 수정됨")
+            .setColor(Colors.Blue)
+            .setDescription(`주제: ${newItem.name}\n${codeBlock("ansi", str)}`),
+        ],
+      },
+      currentUser
+    )
   }
 )
