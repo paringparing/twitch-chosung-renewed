@@ -232,7 +232,7 @@ const PlayContent: React.FC = () => {
         <div style={{ fontSize: 48, fontWeight: 800, textAlign: "center" }}>
           {matchedUser} 정답!
         </div>
-        <div style={{ fontSize: 36, fontWeight: 800, textAlign: "center" }}>{score}</div>
+        <div style={{ fontSize: 36, fontWeight: 800, textAlign: "center" }}>{score}점</div>
         <Button
           onClick={async () => {
             if (words!.length - 1 === currentWordIndex) {
