@@ -425,8 +425,9 @@ const CategoryEditorContent: BlitzPage = () => {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "flex-start" }}>
-                  <div style={{ fontSize: 36, fontWeight: 800 }}>{item.name}</div>
-                  <div style={{ flexGrow: 1 }} />
+                  <div style={{ fontSize: 36, fontWeight: 800, width: 0, flexGrow: 1 }}>
+                    {item.name}
+                  </div>
                   <Overlay
                     button={
                       <Button
