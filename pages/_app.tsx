@@ -49,7 +49,6 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
         {`
           body {
             margin: 0;
-            user-select: none;
             overflow-x: hidden;
           }
           * {
