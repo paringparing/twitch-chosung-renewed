@@ -3,7 +3,6 @@ import Router from "next/router"
 import { BlitzPage } from "@blitzjs/next"
 import React from "react"
 import GameLayout from "../../app/game/layout"
-import { MdAccessTime } from "react-icons/md"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
   gameUserStateStore,

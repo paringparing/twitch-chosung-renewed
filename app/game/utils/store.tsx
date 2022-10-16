@@ -1,5 +1,4 @@
 import { atom, selector } from "recoil"
-import React from "react"
 
 export type ChatData = {
   user: string
