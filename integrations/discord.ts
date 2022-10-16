@@ -1,14 +1,16 @@
 import { User } from "@prisma/client"
-import { EmbedBuilder, WebhookClient, WebhookCreateMessageOptions } from "discord.js"
+import { WebhookClient, WebhookCreateMessageOptions } from "discord.js"
 
-let webhook: WebhookClient =
-  global.webhookClient ?? new WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL! })
+let webhook: WebhookClient | null =
+  global.webhookClient ?? process.env.DISCORD_WEBHOOK_URL
+    ? new WebhookClient({ url: process.env.DISCORD_WEBHOOK_URL! })
+    : null
 
 global.webhookClient = webhook
 
 export const sendWebhook = (data: WebhookCreateMessageOptions, user: User) => {
   return webhook
-    .send({
+    ?.send({
       username: getUsername(user),
       avatarURL: user.avatar!,
       ...data,
