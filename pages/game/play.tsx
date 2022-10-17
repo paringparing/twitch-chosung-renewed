@@ -154,7 +154,9 @@ const PlayContent: React.FC = () => {
         const u = us["display-name"] ?? us.username!
         setMatchedUser(u)
         setMatchedWord(currentWord)
-        const score = Math.floor(10000 * ((endsAt - Date.now()) / (maxTime * 1000)))
+        const score = enableMaxTime
+          ? Math.floor(10000 * ((endsAt - Date.now()) / (maxTime * 1000)))
+          : 1
         setScore(score)
         gameUserStateStore.set(us["user-id"], currentWordIndex)
         const d = { ...rankingData } ?? {}
