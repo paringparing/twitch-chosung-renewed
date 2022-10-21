@@ -47,7 +47,7 @@ const ChatView: React.FC = () => {
           us["user-id"] !== currentWord?.author) ||
         !hideCount
       ) {
-        c = `${message.split("").filter((x, i) => currentWord.word[i] === x).length}/${
+        c = `${message.split("").filter((x, i) => currentWord?.word[i] === x).length}/${
           message.length
         }`
       }
