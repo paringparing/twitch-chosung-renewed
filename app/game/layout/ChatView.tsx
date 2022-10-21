@@ -2,7 +2,14 @@ import React from "react"
 import { useTmi } from "../utils/tmi"
 import { ChatUserstate } from "tmi.js"
 import { useRecoilState, useRecoilValue } from "recoil"
-import { SChatData, SCurrentWord, SShowPercent } from "../utils/store"
+import {
+  gameUserStateStore,
+  SChatData,
+  SContinuousBlockCount,
+  SCurrentWord,
+  SCurrentWordIndex,
+  SShowPercent,
+} from "../utils/store"
 import { useCurrentUser } from "../../core/hooks/useCurrentUser"
 
 const ChatView: React.FC = () => {
@@ -12,17 +19,33 @@ const ChatView: React.FC = () => {
   const user = useCurrentUser()!
   const currentWord = useRecoilValue(SCurrentWord)
   const showPercent = useRecoilValue(SShowPercent)
+  const currentWordIndex = useRecoilValue(SCurrentWordIndex)
+  const continuousBlockCount = useRecoilValue(SContinuousBlockCount)
 
   React.useEffect(() => {
     const tmi = t
 
     const onChat = (channel: string, us: ChatUserstate, message: string) => {
+      if (!us["user-id"]) return
+
       let c
 
+      let hideCount = true
+
+      const lastIndex = gameUserStateStore.get(us["user-id"])
+
+      if (typeof lastIndex === "number") {
+        const diff = currentWordIndex - lastIndex
+
+        if (diff <= continuousBlockCount) hideCount = true
+        else hideCount = false
+      }
+
       if (
-        message.length === currentWord?.word.length &&
-        showPercent &&
-        us["user-id"] !== currentWord?.author
+        (message.length === currentWord?.word.length &&
+          showPercent &&
+          us["user-id"] !== currentWord?.author) ||
+        !hideCount
       ) {
         c = `${message.split("").filter((x, i) => currentWord.word[i] === x).length}/${
           message.length
