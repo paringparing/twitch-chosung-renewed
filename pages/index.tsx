@@ -102,7 +102,7 @@ const Home: BlitzPage = () => {
           ref={(instance) => (videoContainerRef.current = instance)}
         >
           <YouTube
-            videoId="viqeGyydZLA"
+            videoId="6solWdOXLtU"
             className="home__videoContainer"
             opts={{
               width: `${1920 * videoScale}`,
